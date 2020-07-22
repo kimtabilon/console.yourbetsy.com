@@ -1,0 +1,64 @@
+.owl-item {
+    .item {
+        img {
+            width: 15rem;
+            display: block;
+            margin: auto;
+        }
+    }
+}
+
+.owl-nav {
+    button:focus {
+        outline:0 !important;
+    }
+    button:hover {
+        background: transparent !important;
+    }
+    button {
+        position: absolute;
+        top: 80px;
+        font-size: 80px !important;
+
+        span:hover {
+            color: black !important;
+        }
+    }
+
+    .owl-prev {
+        left: 0;
+    }
+
+    .owl-next {
+        right: 0;
+    }
+}
+
+.owl-dots {
+
+    button:focus {
+        outline:0 !important;
+    }
+
+    button {
+        
+        background-size: 5rem !important;
+        background-position: center !important;
+        width: 7rem;
+        height: 7rem;
+        background-repeat: no-repeat !important;
+    }
+
+    .owl-dot {
+        padding: 0 1rem;
+        button {
+            filter: opacity(0.5);
+        }
+    }
+
+    .active {
+        button {
+            filter: opacity(2);
+        }
+    }
+}
