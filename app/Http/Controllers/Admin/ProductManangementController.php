@@ -357,11 +357,11 @@ class ProductManangementController extends Controller
                         ],
                         [
                             "attribute_code" => "special_from_date",
-                            "value" => $special_from_date
+                            "value" => $items->date_start
                         ],
                         [
                             "attribute_code" => "special_to_date",
-                            "value" => $special_to_date
+                            "value" => $items->date_end
                         ],
                         [
                             "attribute_code" => "special_price",

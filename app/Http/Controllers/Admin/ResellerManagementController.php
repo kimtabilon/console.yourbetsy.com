@@ -191,10 +191,20 @@ class ResellerManagementController extends Controller
                         if (!$saved_mobile) { $error_counter++; }
                         break;
                     case "secondary_contact_number":
-                        $secondary_no = ResellersSecondaryNumbers::find($value->column_id);
-                        $secondary_no->secondary_number = $value->value;
-                        $saved_secondary_no = $secondary_no->save();
-                        if (!$saved_secondary_no) { $error_counter++; }
+                        if ($value->column_id) {
+                            $secondary_no = ResellersSecondaryNumbers::find($value->column_id);
+                            $secondary_no->secondary_number = $value->value;
+                            $saved_secondary_no = $secondary_no->save();
+                            if (!$saved_secondary_no) { $error_counter++; }
+                        }else{
+                            $secondary_no_add = New ResellersSecondaryNumbers;
+                            $secondary_no_add->secondary_number = $value->value;
+                            $secondary_no_add->username_id = $profileupdate_status->username_id;
+                            $saved_secondary_no_add = $secondary_no_add->save();
+
+                            if (!$saved_secondary_no_add) { $error_counter++; }
+                        }
+                        
                         break;
                     default:
                         # code...

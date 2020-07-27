@@ -82,7 +82,7 @@
                                 <div class="form-group">
                                     <label>Primary Contact Number</label>
                                     <div class="input-group custom-input-group">
-                                        <input type="text" class="form-control" name="primary_contact_number" value="{{ $data->mobile_no->mobile_number}}" disabled>
+                                        <input type="number" class="form-control" name="primary_contact_number" value="{{ $data->mobile_no->mobile_number}}" disabled>
                                         <span class="input-group-addon primary_contact_number_edit" onclick="enable_field('primary_contact_number')">
                                             <i class="material-icons">edit</i>
                                         </span>
@@ -93,7 +93,7 @@
                                 <div class="form-group">
                                     <label>Secondary Contact Number</label>
                                     <div class="input-group custom-input-group">
-                                        <input type="text" class="form-control" name="secondary_contact_number" value="{{ isset($data->secondary_no)? $data->secondary_no->secondary_number : ""}}" disabled>
+                                        <input type="number" class="form-control" name="secondary_contact_number" value="{{ isset($data->secondary_no)? $data->secondary_no->secondary_number : ""}}" disabled>
                                         <span class="input-group-addon secondary_contact_number_edit" onclick="enable_field('secondary_contact_number')">
                                             <i class="material-icons">edit</i>
                                         </span>
