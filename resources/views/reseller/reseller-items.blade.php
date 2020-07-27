@@ -379,7 +379,7 @@
                         </div>
                     </div>
                   </div>
-                </form>
+                
 
                 
 
@@ -395,6 +395,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -624,7 +625,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
                 
             <div class="modal-footer">
@@ -635,6 +636,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -853,10 +855,12 @@
                 var date_s = "";
                 var date_e = "";
                 if (data.date_start) {
-                    date_s = moment(data.date_start).format('MM/DD/YYYY HH:mm');
+                    // date_s = moment(data.date_start).format('MM/DD/YYYY HH:mm');
+                    date_s = moment(data.date_start).format('MM/DD/YYYY');
                 }
                 if (data.date_end) {
-                    date_e = moment(data.date_end).format('MM/DD/YYYY HH:mm');
+                    // date_e = moment(data.date_end).format('MM/DD/YYYY HH:mm');
+                    date_e = moment(data.date_end).format('MM/DD/YYYY');
                 }
                 $('[name="price_update"]').val(data.price);
                 $('[name="special_price_update"]').val(data.special_price);
@@ -945,6 +949,7 @@
     }
 
     $('#add_item_frm').on('submit', function(e) {
+        console.log('test');
         var formData = new FormData($('#add_item_frm')[0]);
         /* $(".nav-info,#link1").removeClass("active show");
         $(".nav-images,#link2").addClass("active show"); */
@@ -1017,6 +1022,7 @@
                 
             }
         });
+    // }
     });
 
 
