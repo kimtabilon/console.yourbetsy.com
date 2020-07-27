@@ -577,12 +577,14 @@ button:disabled {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #e0e0e0cc;
+  background-color: rgba(224, 224, 224, 0.8);
   font-size: 19px;
   font-weight: 500;
   color: #fa5b1b;
   height: 100%;
   cursor: pointer;
+  top: 0;
+  left: 0;
 }
 
 .profile-field .profile-upload:hover .upload-text {
