@@ -411,7 +411,7 @@
             dataType: 'json',
             success:function(data) {
                 
-                setTimeout(() => {
+                setTimeout(function() {
                     saving_modal("hide");
                     if (data.status == "successful") {
                         modalAlert({"type":"success","message":"", 

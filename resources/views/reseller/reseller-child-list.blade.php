@@ -428,7 +428,7 @@
                         }
                     });
                 }else if(result.status == "sucess") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 

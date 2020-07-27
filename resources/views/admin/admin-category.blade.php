@@ -602,7 +602,7 @@
                         }
                     });
                 }else if(result.status == "success") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 
@@ -775,7 +775,7 @@
                         }
                     });
                 }else if(result.status == "success") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 
