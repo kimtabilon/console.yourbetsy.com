@@ -175,7 +175,7 @@
             </div>
             <form id="delete_frm" method="POST">
                 <input type="hidden" name="del_category_id">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -184,6 +184,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -203,7 +204,7 @@
             </div>
             <form id="delete_frm_sub" method="POST">
                 <input type="hidden" name="del_sub_category_id">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -212,6 +213,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>

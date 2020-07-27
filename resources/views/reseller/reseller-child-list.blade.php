@@ -306,7 +306,7 @@
                     </div>
                 
                     <input type="hidden" name="verify_reseller_id">
-                </form>
+                
             </div>
                 
                     
@@ -320,6 +320,7 @@
                     <div class="ripple-container"></div>
                 </button>
             </div>
+        </form>
         </div>
     </div>
 </div>

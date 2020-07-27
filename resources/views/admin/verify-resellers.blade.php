@@ -135,7 +135,7 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="verify_reseller_id">
                     <input type="hidden" name="status" value="0">
-                </form>
+                
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -144,6 +144,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+            </form>
         </div>
     </div>
 </div>
