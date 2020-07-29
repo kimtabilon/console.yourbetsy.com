@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
                 
             <div class="modal-footer">
@@ -127,6 +127,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -147,7 +148,7 @@
             <form id="deact_frm" method="POST">
                 <input type="hidden" name="deact_category_id">
                 <input type="hidden" name="status">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -156,6 +157,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -175,7 +177,7 @@
             </div>
             <form id="delete_frm" method="POST">
                 <input type="hidden" name="del_category_id">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -184,6 +186,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -203,7 +206,7 @@
             </div>
             <form id="delete_frm_sub" method="POST">
                 <input type="hidden" name="del_sub_category_id">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -212,6 +215,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -304,7 +308,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
                 
             <div class="modal-footer">
@@ -315,6 +319,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -335,7 +340,7 @@
             <form id="deact_frm_subcat" method="POST">
                 <input type="hidden" name="deact_sub_category_id">
                 <input type="hidden" name="status_subcat">
-            </form>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -344,6 +349,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -602,7 +608,7 @@
                         }
                     });
                 }else if(result.status == "success") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 
@@ -775,7 +781,7 @@
                         }
                     });
                 }else if(result.status == "success") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 

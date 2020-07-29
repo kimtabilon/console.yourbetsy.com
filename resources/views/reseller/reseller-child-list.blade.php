@@ -183,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
@@ -194,6 +194,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -305,7 +306,7 @@
                     </div>
                 
                     <input type="hidden" name="verify_reseller_id">
-                </form>
+                
             </div>
                 
                     
@@ -319,6 +320,7 @@
                     <div class="ripple-container"></div>
                 </button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -427,7 +429,7 @@
                         }
                     });
                 }else if(result.status == "sucess") {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         saving_modal("hide");
                         modalAlert({"type":"success","message":"", 
                             "action": function(){ 

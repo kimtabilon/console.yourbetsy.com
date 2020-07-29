@@ -125,7 +125,7 @@
                     <input type="hidden" name="verify_product_id">
                     <input type="hidden" name="status" value="0">
                     <input type="hidden" name="action">
-                </form>
+                
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -134,6 +134,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -181,7 +182,7 @@
                         <div class="row col-md-12 custom-divider"></div>
                         
                     </div> --}}
-                </form>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
@@ -191,6 +192,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>

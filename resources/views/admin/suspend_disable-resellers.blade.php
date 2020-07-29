@@ -133,7 +133,7 @@
                     </div>
                 
                     <input type="hidden" name="verify_reseller_id">
-                </form>
+                
             </div>
                 
                     
@@ -147,6 +147,7 @@
                     <div class="ripple-container"></div>
                 </button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -269,7 +270,7 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="reactivate_reseller_id">
                     <input type="hidden" name="reactivate_status" value="0">
-                </form>
+                
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
                     Cancel
@@ -278,6 +279,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>

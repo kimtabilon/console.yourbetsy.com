@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
             
             {{-- <form id="ship_frm" method="POST">
@@ -135,6 +135,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -170,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
@@ -180,6 +181,7 @@
                     <div class="ripple-container"></div>
                     <div class="ripple-container"></div></button>
             </div>
+            </form>
         </div>
     </div>
 </div>
