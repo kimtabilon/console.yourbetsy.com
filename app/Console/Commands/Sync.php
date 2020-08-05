@@ -59,6 +59,7 @@ class Sync extends Command
                         }
                     }
                 }
+                echo 'syncing DONE';
                 break;
             
             default:
