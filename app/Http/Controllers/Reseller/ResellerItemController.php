@@ -248,8 +248,10 @@ class ResellerItemController extends Controller
             
             /* $row_arr["url"] = asset($img_url); */
             $filename = str_replace("/storage/items/".strtolower($sku)."/", "", $img_url);
-            $row_arr["url"] = url("/storage/app/public/items/".$sku."/".$filename);
-            $row_arr["filename"] = str_replace("/storage/items/".strtolower($sku)."/", "", $img_url);
+/*             $row_arr["url"] = url("/storage/app/public/items/".$sku."/".$filename);
+            $row_arr["filename"] = str_replace("/storage/items/".strtolower($sku)."/", "", $img_url); */
+            $row_arr["url"] = url("/storage/items/".$sku."/".$filename);
+            $row_arr["filename"] = url("/storage/items/".$sku."/".$filename);
             
             // array_push($img_list, asset($img_url));
             $img_list[] = $row_arr;

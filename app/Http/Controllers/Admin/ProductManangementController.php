@@ -104,7 +104,7 @@ class ProductManangementController extends Controller
             $img_url = Storage::url($img[$i]);
             /* array_push($img_list, asset($img_url)); */
             $filename = str_replace("/storage/items/".$sku."/", "", $img_url);
-            $img_file = url("/storage/app/public/items/".$sku."/".$filename);
+            $img_file = url("/storage/items/".$sku."/".$filename);
             array_push($img_list, $img_file);
         }
 
