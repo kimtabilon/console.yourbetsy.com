@@ -20,7 +20,7 @@ class ContentController extends Controller
             $desc = $item->product_shortdesc;
             $img_url = Storage::url($img[0]);
             $filename = str_replace("/storage/items/".strtolower($sku)."/", "", $img_url);
-            $img_file = [url("/storage/app/public/items/".strtolower($sku)."/".$filename)];
+            $img_file = [url("/storage/items/".strtolower($sku)."/".$filename)];
         }
         
 
@@ -66,7 +66,7 @@ class ContentController extends Controller
         for ($i=0; $i < count($img); $i++) { 
             $img_url = Storage::url($img[$i]);
             $filename = str_replace("/storage/items/".$sku."/", "", $img_url);
-            $img_file = url("/storage/app/public/items/".$sku."/".$filename);
+            $img_file = url("/storage/items/".$sku."/".$filename);
             /* $img_file = url($img_url); */
             array_push($data,$img_file);
         }
