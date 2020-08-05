@@ -135,11 +135,12 @@ function cleanJson($json) {
 
 function getProfilePhoto($username_id){
     $profile_path = \Storage::files("/public/avatars/".$username_id);
-    $profile_img = '/storage/app/public/avatars/default.png';
+    // $profile_img = '/storage/app/public/avatars/default.png';
+    $profile_img = '/storage/avatars/default.png';
     if ($profile_path) {
         $filename = str_replace("public/avatars/".$username_id."/", "", $profile_path[0]);
-        $profile_img = url("/storage/app/public/avatars/".$username_id."/".$filename);
-        // $profile_img = url("/storage/avatars/".$username_id."/".$filename);
+        // $profile_img = url("/storage/app/public/avatars/".$username_id."/".$filename);
+        $profile_img = url("/storage/avatars/".$username_id."/".$filename);
     }
 
     return $profile_img;
