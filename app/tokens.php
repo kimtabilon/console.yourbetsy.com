@@ -8,7 +8,7 @@ function storeToken() {
     $domain = 'https://www.yourbetsy.com/';
    /*  $domain = 'https://www.ecommercebusinessprime.com/'; */
 
-    $userData = array("username" => "admin", "password" => "YourBetsy@2020");
+    $userData = array("username" => "yourbetsy", "password" => "08N@8NDeWD");
     /* $userData = array("username" => "admin", "password" => "Ec0m@2020"); */
     $ch = curl_init($domain."rest/V1/integration/admin/token");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
