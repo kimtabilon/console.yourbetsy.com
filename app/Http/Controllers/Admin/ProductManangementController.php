@@ -151,9 +151,6 @@ class ProductManangementController extends Controller
 
     public function product_change_status() {
         $product_status = Items::find(request('verify_product_id'));
-        $this->uploadThumbnailToStore($product_status->sku);
-        dd();
-        $product_status = Items::find(request('verify_product_id'));
         $product_status->status = request('status');
         $saved = $product_status->save();
 
