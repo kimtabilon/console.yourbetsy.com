@@ -5,7 +5,8 @@
  * return domain
  */
 function storeToken() {
-    $domain = 'https://www.yourbetsy.com/';
+    // $domain = 'https://www.yourbetsy.com/';
+    $domain = 'http://yourbetsy.com/';
    /*  $domain = 'https://www.ecommercebusinessprime.com/'; */
 
     $userData = array("username" => "yourbetsy", "password" => "08N@8NDeWD");
