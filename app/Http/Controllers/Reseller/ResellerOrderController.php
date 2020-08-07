@@ -23,8 +23,6 @@ class ResellerOrderController extends Controller
         /* $this->ship_order(); */
         /* $this->get_orders_from_store(); */
         
-
-        $this->send_email_ship(43);
         $skus = $this->get_sellers_sku();
         $order_items = OrderItems::select('order_id','status')
                     ->whereIn('sku',$skus)
