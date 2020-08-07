@@ -306,7 +306,6 @@ class ProductManangementController extends Controller
         if($counter_itemExist == 0) {
             
             $token_details = storeToken();
-            dd($token_details);
             $ch = curl_init($token_details['domain']."/rest/V1/products");
 
             $category = ItemsCategories::find($items->items_sub_categories->category_id);
@@ -362,7 +361,7 @@ class ProductManangementController extends Controller
                         ],
                         [
                             "attribute_code" => "special_price",
-                            "value" => $special_price
+                            "value" => $items->special_price
                         ],
                         [
                             "attribute_code" => "short_description",
