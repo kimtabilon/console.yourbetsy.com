@@ -884,6 +884,7 @@
                 $('[name="price_update"]').val(data.price);
                 $('[name="special_price_update"]').val(data.special_price);
                 $('[name="quantity_update"]').val(data.quantity);
+                $('[name="shipping_fee_update"]').val(data.shipping_fee);
                 
                 $('[name="date_start_update"]').val(date_s);
                 $('[name="date_end_update"]').val(date_e);
