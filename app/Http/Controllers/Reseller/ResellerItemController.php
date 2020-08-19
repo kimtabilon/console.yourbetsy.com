@@ -527,6 +527,7 @@ class ResellerItemController extends Controller
             $items->price = request('price_update');
             $items->quantity = request('quantity_update');
             $items->special_price = request('special_price_update');
+            $items->shipping_fee = request('shipping_fee_update');
 
             if (request('date_start_update')) {
                 $items->date_start = date("Y-m-d H:i:s",strtotime(request('date_start_update')));
