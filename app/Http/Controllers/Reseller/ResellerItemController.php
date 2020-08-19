@@ -604,6 +604,9 @@ class ResellerItemController extends Controller
         $qty = "";
         $shipping_fee = "";
         $counter_difference = 0;
+        $special_price = 0;
+        $date_start = "";
+        $date_end = "";
         foreach ($json_data as $key => $value) {
             if ($value->sku == $items->sku) {
                 if ($items->price !== $value->price) {
@@ -620,8 +623,11 @@ class ResellerItemController extends Controller
                     $qty = $value->qty;
                 }
 
-                $shipping_fee = $items->shipping_fee;
                 $counter_difference++;
+                $shipping_fee = $items->shipping_fee;
+                $special_price = $items->special_price;
+                $date_start = $items->date_start;
+                $date_end = $items->date_end;
             break;
             }
             
@@ -649,7 +655,7 @@ class ResellerItemController extends Controller
             $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$items->sku);
             $json = new stdClass;
 
-            if ($price != 0 && $qty != "") {
+            if ($price != 0 && $qty != "" && $special_price == 0) {
                 $json->product = [
                     "price" => $price,
                     "extension_attributes" => [
@@ -665,12 +671,40 @@ class ResellerItemController extends Controller
                         ],
                     ]
                 ];
+            }elseif ($price != 0 && $qty != "" && $special_price > 0){
+                $json->product = [
+                    "price" => $price,
+                    "extension_attributes" => [
+                        "stock_item" =>[
+                            "qty" => $qty,
+                            "is_in_stock" => true
+                        ]
+                    ],
+                    "custom_attributes" => [
+                        [
+                            "attribute_code" => "special_from_date",
+                            "value" => $date_start
+                        ],
+                        [
+                            "attribute_code" => "special_to_date",
+                            "value" => $date_end
+                        ],
+                        [
+                            "attribute_code" => "special_price",
+                            "value" => $special_price
+                        ],
+                        [
+                            "attribute_code" => "shipping_cost",
+                            "value" => $shipping_fee
+                        ],
+                    ]
+                ];
             }else {
                 $json->product = [
                     "custom_attributes" => [
                         [
                             "attribute_code" => "shipping_cost",
-                            "value" => $items->shipping_fee
+                            "value" => $shipping_fee
                         ],
                     ]
                 ];
