@@ -304,22 +304,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Price</label>
                                     <input class="form-control" type="number" name="price" aria-required="true">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Special Price (Optional)</label>
                                     <input class="form-control" type="number" name="special_price" aria-required="true">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Quantity On Hand</label>
                                     <input class="form-control" type="number" name="quantity" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Shipping Fee</label>
+                                    <input class="form-control" type="number" name="shipping_fee" aria-required="true">
                                 </div>
                             </div>
         
@@ -472,22 +478,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Price</label>
                                     <input class="form-control" type="number" name="price_v" aria-required="true" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Special Price (Optional)</label>
                                     <input class="form-control" type="number" name="special_price_v" aria-required="true" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Quantity</label>
                                     <input class="form-control" type="number" name="quantity_v" aria-required="true" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Shipping Fee</label>
+                                    <input class="form-control" type="number" name="shipping_fee_v" aria-required="true" readonly>
                                 </div>
                             </div>
                         </div>
@@ -592,22 +604,28 @@
                     <input type="hidden" name="item_id_update">
                     
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Price</label>
                                 <input class="form-control" type="number" name="price_update" aria-required="true">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Special Price (Optional)</label>
                                 <input class="form-control" type="number" name="special_price_update" aria-required="true">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Quantity</label>
                                 <input class="form-control" type="number" name="quantity_update" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Shipping Fee</label>
+                                <input class="form-control" type="number" name="shipping_fee_update" aria-required="true">
                             </div>
                         </div>
                     </div>
@@ -751,6 +769,7 @@
         /* $(".file-upload").prop("onclick",""); */
 
         $('#modal_add').modal('show');
+        $('#modal_add').find('.modal-title').html('Update Item');
         $('[name="item_id"]').val(id);
 
         $.ajaxSetup({
@@ -903,6 +922,7 @@
                 $('[name="short_description_v"]').text(data.product_shortdesc);
                 $('[name="price_v"]').val(data.price);
                 $('[name="special_price_v"]').val(data.special_price);
+                $('[name="shipping_fee_v"]').val(data.shipping_fee);
                 $('[name="quantity_v"]').val(data.quantity);
                 $('[name="handling_time_v"]').val(data.handling_time);
                 $('[name="date_start_v"]').val(data.date_start);
@@ -998,6 +1018,8 @@
                             error_message += "Item Handling Time needs to be greater than 0<br/>";
                         }else if (value == "The selected special price is invalid.") {
                             error_message += "Item Special Price needs to be greater than 0<br/>";
+                        }else if (value == "The selected shipping fee is invalid.") {
+                            error_message += "Item Shipping Fee needs to be greater than 0<br/>";
                         }else{
                             error_message += value+"<br/>";
                         }
@@ -1063,6 +1085,8 @@
                             error_message += "Item Quantity update needs to be greater than 0<br/>";
                         }else if (value == "The selected special price update is invalid.") {
                             error_message += "Item Special Price update needs to be greater than 0<br/>";
+                        }else if (value == "The selected shipping fee update is invalid.") {
+                            error_message += "Item Shipping Fee update needs to be greater than 0<br/>";
                         }else{
                             error_message += value+"<br/>";
                         }

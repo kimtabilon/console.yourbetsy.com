@@ -119,6 +119,7 @@ class ResellerItemController extends Controller
             'handling_time' => ['required'],
             'product_images' => ['required'],
             'sub_category' => ['required'],
+            'shipping_fee' => ['required','numeric','min:0','not_in:0'],
             'special_price' => ['not_in:0'],
         ];
 
@@ -133,6 +134,7 @@ class ResellerItemController extends Controller
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
                 'sub_category' => ['required'],
+                'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
             ];
@@ -149,6 +151,7 @@ class ResellerItemController extends Controller
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
                 'sub_category' => ['required'],
+                'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'special_price' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
@@ -171,6 +174,7 @@ class ResellerItemController extends Controller
             $items->quantity = request('quantity');
             $items->handling_time = request('handling_time');
             $items->special_price = request('special_price');
+            $items->shipping_fee = request('shipping_fee');
             $items->date_start = request('date_start')?date("Y-m-d H:i:s",strtotime(request('date_start'))) : NULL;
             $items->date_end = request('date_start')?date("Y-m-d H:i:s",strtotime(request('date_end'))) : NULL;
             $items->made_in = request('made_in');
@@ -264,7 +268,7 @@ class ResellerItemController extends Controller
     public function update_item() {
 
         $validate_data = [
-            'sku' => ['required','unique:items,sku'],
+            /* 'sku' => ['required','unique:items,sku'], */
             'product_name' => ['required'],
             'description' => ['required'],
             'short_description' => ['required'],
@@ -273,12 +277,13 @@ class ResellerItemController extends Controller
             'handling_time' => ['required'],
             'product_images' => ['required'],
             'sub_category' => ['required'],
+            'shipping_fee' => ['required','numeric','min:0','not_in:0'],
             'special_price' => ['not_in:0'],
         ];
 
         if (request('special_price') > 0) {
             $validate_data = [
-                'sku' => ['required','unique:items,sku'],
+                /* 'sku' => ['required','unique:items,sku'], */
                 'product_name' => ['required'],
                 'description' => ['required'],
                 'short_description' => ['required'],
@@ -287,6 +292,7 @@ class ResellerItemController extends Controller
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
                 'sub_category' => ['required'],
+                'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
             ];
@@ -294,7 +300,7 @@ class ResellerItemController extends Controller
         
         if (request('date_start') != "" || request('date_end') != "") {
             $validate_data = [
-                'sku' => ['required','unique:items,sku'],
+                /* 'sku' => ['required','unique:items,sku'], */
                 'product_name' => ['required'],
                 'description' => ['required'],
                 'short_description' => ['required'],
@@ -303,6 +309,7 @@ class ResellerItemController extends Controller
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
                 'sub_category' => ['required'],
+                'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'special_price' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
@@ -327,6 +334,7 @@ class ResellerItemController extends Controller
             $items->quantity = request('quantity');
             $items->handling_time = request('handling_time');
             $items->special_price = request('special_price');
+            $items->shipping_fee = request('shipping_fee');
             $items->date_start = request('date_start')?date("Y-m-d H:i:s",strtotime(request('date_start'))) : NULL;
             $items->date_end = request('date_end')?date("Y-m-d H:i:s",strtotime(request('date_end'))) : NULL;
             $items->made_in = request('made_in');
@@ -350,6 +358,10 @@ class ResellerItemController extends Controller
             if ($old_items->price != request('price')) {
                 $desc_item_his_new['price'] = request('price');
                 $desc_item_his_old['price'] = $old_items->price;
+            }
+            if ($old_items->shipping_fee != request('shipping_fee')) {
+                $desc_item_his_new['shipping_fee'] = request('shipping_fee');
+                $desc_item_his_old['shipping_fee'] = $old_items->shipping_fee;
             }
             if ($old_items->quantity != request('quantity')) {
                 $desc_item_his_new['quantity'] = request('quantity');
@@ -387,7 +399,7 @@ class ResellerItemController extends Controller
             $item_his_data = [
                 'item_id' => $items->id,
                 'status' => 1,
-                'action' => "Added",
+                'action' => "Update",
                 'desc' => json_encode($data_desc_his),
                 'type_of_modifier' => "Vendor"
 
@@ -479,12 +491,14 @@ class ResellerItemController extends Controller
         $validate_data = [
             'price_update' => ['required','numeric','min:0','not_in:0'],
             'quantity_update' => ['required','numeric','min:0','not_in:0'],
+            'shipping_fee_update' => ['required','numeric','min:0','not_in:0'],
             'special_price_update' => ['not_in:0'],
         ];
         if (request('special_price_update') > 0) {
             $validate_data = [
                 'price_update' => ['required','numeric','min:0','not_in:0'],
                 'quantity_update' => ['required','numeric','min:0','not_in:0'],
+                'shipping_fee_update' => ['required','numeric','min:0','not_in:0'],
                 'date_start_update' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end_update' => ['required', 'date' ,'date_format:m/d/Y']
             ];
@@ -496,6 +510,7 @@ class ResellerItemController extends Controller
                 'price_update' => ['required','numeric','min:0','not_in:0'],
                 'quantity_update' => ['required','numeric','min:0','not_in:0'],
                 'special_price_update' => ['required','numeric','min:0','not_in:0'],
+                'shipping_fee_update' => ['required','numeric','min:0','not_in:0'],
                 'date_start_update' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end_update' => ['required', 'date' ,'date_format:m/d/Y']
             ];

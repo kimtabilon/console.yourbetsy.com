@@ -256,22 +256,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Price</label>
                                     <input class="form-control" type="number" name="price_v" aria-required="true" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Special Price (Optional)</label>
                                     <input class="form-control" type="number" name="special_price_v" aria-required="true" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Quantity</label>
                                     <input class="form-control" type="number" name="quantity_v" aria-required="true" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Shipping Fee</label>
+                                    <input class="form-control" type="number" name="shipping_fee_v" aria-required="true" readonly>
                                 </div>
                             </div>
         
@@ -461,6 +467,7 @@
                 $('[name="price_v"]').val(data.price);
                 $('[name="special_price_v"]').val(data.special_price);
                 $('[name="quantity_v"]').val(data.quantity);
+                $('[name="shipping_fee_v"]').val(data.shipping_fee);
                 $('[name="handling_time_v"]').val(data.handling_time);
                 $('[name="date_start_v"]').val(data.date_start);
                 $('[name="date_end_v"]').val(data.date_end);
