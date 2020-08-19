@@ -601,7 +601,7 @@ class ResellerItemController extends Controller
         $url_data = "";
         $price = 0;
         $qty = "";
-
+        $shipping_fee = "";
         $counter_difference = 0;
         foreach ($json_data as $key => $value) {
             if ($value->sku == $items->sku) {
@@ -618,6 +618,8 @@ class ResellerItemController extends Controller
                 }else{
                     $qty = $value->qty;
                 }
+
+                $shipping_fee = $items->shipping_fee;
             break;
             }
             
@@ -652,6 +654,12 @@ class ResellerItemController extends Controller
                         "is_in_stock" => true
                     ]
                 ],
+                "custom_attributes" => [
+                    [
+                        "attribute_code" => "shipping_cost",
+                        "value" => $items->shipping_fee
+                    ],
+                ]
             ];
 
             $json  = json_encode($json);
