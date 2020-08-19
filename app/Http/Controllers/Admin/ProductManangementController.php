@@ -420,6 +420,10 @@ class ProductManangementController extends Controller
                             "attribute_code" => "short_description",
                             "value" => $items->product_shortdesc
                         ],
+                        [
+                            "attribute_code" => "shipping_cost",
+                            "value" => $items->shipping_fee
+                        ],
                         /* [
                             "attribute_code" => "country_of_manufacture",
                             "value" => $country_of_manufacture
