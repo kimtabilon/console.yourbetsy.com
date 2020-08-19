@@ -620,6 +620,7 @@ class ResellerItemController extends Controller
                 }
 
                 $shipping_fee = $items->shipping_fee;
+                $counter_difference++;
             break;
             }
             
@@ -646,21 +647,34 @@ class ResellerItemController extends Controller
 
             $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$items->sku);
             $json = new stdClass;
-            $json->product = [
-                "price" => $price,
-                "extension_attributes" => [
-                    "stock_item" =>[
-                        "qty" => $qty,
-                        "is_in_stock" => true
-                    ]
-                ],
-                "custom_attributes" => [
-                    [
-                        "attribute_code" => "shipping_cost",
-                        "value" => $items->shipping_fee
+
+            if ($price != 0 && $qty != "") {
+                $json->product = [
+                    "price" => $price,
+                    "extension_attributes" => [
+                        "stock_item" =>[
+                            "qty" => $qty,
+                            "is_in_stock" => true
+                        ]
                     ],
-                ]
-            ];
+                    "custom_attributes" => [
+                        [
+                            "attribute_code" => "shipping_cost",
+                            "value" => $items->shipping_fee
+                        ],
+                    ]
+                ];
+            }else {
+                $json->product = [
+                    "custom_attributes" => [
+                        [
+                            "attribute_code" => "shipping_cost",
+                            "value" => $items->shipping_fee
+                        ],
+                    ]
+                ];
+            }
+            
 
             $json  = json_encode($json);
             
