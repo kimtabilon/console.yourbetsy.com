@@ -604,4 +604,15 @@ button:disabled {
 .custom-file-label ::after {
   content: "";
 }
+
+.custom-button-container-center {
+  margin: auto;
+}
+
+.custom-button-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto;
+}
 /*# sourceMappingURL=custom.css.map */

@@ -575,3 +575,12 @@ button:disabled {
         content: "";
     }
 }
+
+.custom-button-container-center {
+    margin: auto;
+}
+
+.custom-button-center {
+    display: flex;
+    margin: auto;
+}

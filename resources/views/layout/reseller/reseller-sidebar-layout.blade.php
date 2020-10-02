@@ -162,6 +162,12 @@
                         <p>Items</p>
                     </a>
                 </li>
+                <li class="nav-item" id="shipment_rate">
+                    <a class="nav-link" href="/vendor/shipment-rate">
+                        <i class="material-icons">local_shipping</i>
+                        <p>Shipment Rate</p>
+                    </a>
+                </li>
                 <li class="nav-item" id="order">
                     <a class="nav-link" href="/vendor/order">
                         <i class="material-icons">list_alt</i>

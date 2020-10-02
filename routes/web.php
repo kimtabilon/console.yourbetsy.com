@@ -83,6 +83,10 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth:reseller']], function
     Route::post('/order-items','Reseller\ResellerOrderController@order_items')->name('reseller.order-items');
     Route::post('/order-refund','Reseller\ResellerOrderController@refund_order')->name('reseller.order-refund');
     Route::post('/order-details','Reseller\ResellerOrderController@view_order_details')->name('reseller.order-items');
+
+    Route::get('/shipment-rate','Reseller\ResellerShipmentRateController@index')->name('reseller.shipment-rate');
+    Route::get('/shipment-rate/export','Reseller\ResellerShipmentRateController@export')->name('reseller.shipment-rate_export');
+    Route::post('/shipment-rate/import','Reseller\ResellerShipmentRateController@import');
 });
 
 // ADMIN
