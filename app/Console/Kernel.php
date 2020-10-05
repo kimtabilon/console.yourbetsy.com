@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\ExportDifference::class,
         Commands\Order::class,
         Commands\Sync::class,
+        Commands\ShipmentRate::class,
     ];
 
     /**

@@ -18,7 +18,8 @@ class ResellerShipmentRateController extends Controller
     }
 
     public function export() {
-        header("Content-type: text/csv");
+        /* dd(ph_regions()); */
+        header("Content-type: text/html; charset=UTF-8"); 
         header("Content-Disposition: attachment; filename=tablerate.csv");
         header("Pragma: no-cache");
         header("Expires: 0");
@@ -32,7 +33,7 @@ class ResellerShipmentRateController extends Controller
         foreach ($region_list as $value) {
             fputcsv($csv, ['PH',$value,'*','','']);
         }
-
+        
         fclose($csv);
     }
 
