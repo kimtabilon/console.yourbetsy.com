@@ -78,7 +78,7 @@
 
 
 <script type="text/javascript">
-$('.owl-carousel').owlCarousel({
+/* $('.owl-carousel').owlCarousel({
     items:1,
     loop:true,
     margin:10,
@@ -87,16 +87,5 @@ $('.owl-carousel').owlCarousel({
     dotsData: true,
     navigation: true,
     center:true
-    /* responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:3
-        },
-        1000:{
-            items:1
-        }
-    } */
-})
+}) */
 </script>
