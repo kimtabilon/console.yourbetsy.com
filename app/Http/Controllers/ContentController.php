@@ -70,10 +70,10 @@ class ContentController extends Controller
             /* $img_file = url($img_url); */
             array_push($data,$img_file);
         }
-        
-        return view('content.gallery',
+        return json_encode($data);
+        /* return view('content.gallery',
             ['data' => $data]
-        );
+        ); */
     }
 
     public function manufacturer_policies($sku) {
