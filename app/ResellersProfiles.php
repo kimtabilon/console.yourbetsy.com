@@ -46,6 +46,7 @@ class ResellersProfiles extends Model
     public static function resellers_infos($name) {
                 return DB::table('resellers')
                 ->select(
+                    'resellers.id',
                     'resellers_profiles.reseller_name',
                     'resellers_email_addresses.email_address',
                     'resellers_addresses.address',

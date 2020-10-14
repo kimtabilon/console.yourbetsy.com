@@ -58,6 +58,7 @@ class ContentController extends Controller
         ); */
 
         $data = ResellersProfiles::resellers_infos($name);
+        $data->profile_img = getProfilePhoto($data->id);
         return json_encode($data);
     }
 
