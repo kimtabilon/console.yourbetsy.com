@@ -45,18 +45,20 @@ class ContentController extends Controller
 
     public function manufacturer_profile($name) {
         
-        $profile = ResellersProfiles::with(['about_us','shipping_policy','return_policy','payment_information'])
+        /* $profile = ResellersProfiles::with(['about_us','shipping_policy','return_policy','payment_information'])
                     ->where('reseller_name',$name)
                     ->first();
         $data = [];
         if($profile){
             $data = $profile->toArray();
-        }
-        return view('content.manufacturer-profile',
-            ['data' => $data]
-        );
+        } */
 
-        // return json_encode($data);
+        /* return view('content.manufacturer-profile',
+            ['data' => $data]
+        ); */
+
+        $data = ResellersProfiles::resellers_infos($name);
+        return json_encode($data);
     }
 
     public function gallery($sku) {
