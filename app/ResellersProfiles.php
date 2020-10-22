@@ -47,7 +47,7 @@ class ResellersProfiles extends Model
                 return DB::table('resellers')
                 ->select(
                     'resellers.id',
-                    'resellers_profiles.reseller_name',
+                    'resellers_profiles.reseller_name', 'resellers_profiles.socail_media_url',
                     'resellers_email_addresses.email_address',
                     'resellers_addresses.address',
                     'resellers_mobile_numbers.mobile_number',
