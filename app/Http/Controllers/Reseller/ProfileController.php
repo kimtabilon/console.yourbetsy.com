@@ -53,6 +53,7 @@ class ProfileController extends Controller
             $reseller->address = $address;
             $reseller->secondary_no = $secondary_no;
             $reseller->profile_img = getProfilePhoto($reseller->id);
+            $reseller->banner_img = getBannerPhoto($reseller->id);
         }
         // dd($reseller->secondary_no);
         return view('reseller.reseller-profile-update',
@@ -154,6 +155,20 @@ class ProfileController extends Controller
 
                     $filename = request('username_id').".".$files->getClientOriginalExtension();
                     Storage::put("public/avatars/".request('username_id')."/".$filename,file_get_contents($files));
+                }
+                if (request('edited_content') > 0) {
+                    $resellersProfileReq = new ResellersProfileRequests();
+                    $resellersProfileReq->username_id = request('username_id');
+                    $resellersProfileReq->requested_data = json_encode($requested_data);
+                    $resellersProfileReq->save();
+                }
+
+                $files = request()->file("banner_upload");
+                if (!empty($files)) {
+                    Storage::deleteDirectory("/public/seller-banner/".request('username_id'));
+
+                    $filename = request('username_id').".".$files->getClientOriginalExtension();
+                    Storage::put("public/seller-banner/".request('username_id')."/".$filename,file_get_contents($files));
                 }
                 if (request('edited_content') > 0) {
                     $resellersProfileReq = new ResellersProfileRequests();

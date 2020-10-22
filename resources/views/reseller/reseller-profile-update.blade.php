@@ -29,12 +29,24 @@
                             <div class="col-md-6">
                                 <div class="form-group profile-field">
                                     <label>Profile</label>
-                                    <div class="profile-upload">
+                                    <div class="img-upload profile-upload">
                                         <input type="file" id="profile_upload" onchange="readURL(this);" name="profile_upload" accept="image/*" />
                                         <div class="upload-text">
                                             upload
                                         </div>
                                         <img id="profile_photo" src="{{$data->profile_img}}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group profile-field">
+                                    <label>Store Banner Page</label>
+                                    <div class="img-upload banner-upload">
+                                        <input type="file" id="banner_upload" onchange="readURL(this);" name="banner_upload" accept="image/*" />
+                                        <div class="upload-text">
+                                            upload
+                                        </div>
+                                        <img id="banner_photo" src="{{$data->banner_img}}" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +138,8 @@
     $(document).ready(function() {
 
         $(document).on('click', '.upload-text', function() {
-            $('#profile_upload').click();
+            $(this).prev('input').click();
+            /* $('#profile_upload').click(); */
         })
     });
     
@@ -199,17 +212,27 @@
     }); 
     
     function readURL(input) {
+        var input_id = $(input).attr('id');
+        console.log(input_id)
+        var img_id = '';
+        var default_img = '';
+        if (input_id == "profile_upload") {
+            img_id = 'profile_photo';
+            default_img = '/storage/avatars/default.png';
+        }else{
+            img_id = 'banner_photo';
+            default_img = '/storage/seller-banner/banner-default.png';
+        }
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             
             reader.onload = function(e) {
-                console.log('test');
-                $('#profile_photo').attr('src', e.target.result);
+                $('#'+img_id).attr('src', e.target.result);
             }
             $('#btn_submit').prop('disabled',false);
             reader.readAsDataURL(input.files[0]); // convert to base64 string
         }else {
-            $('#profile_photo').attr('src', '/storage/avatars/default.png');
+            $('#'+img_id).attr('src', default_img);
             
             if (enabled_field_count <= 0) {
                 $('#btn_submit').prop('disabled',true);

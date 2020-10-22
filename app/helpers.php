@@ -146,6 +146,19 @@ function getProfilePhoto($username_id){
     return $profile_img;
 }
 
+function getBannerPhoto($username_id){
+    $profile_path = \Storage::files("/public/seller-banner/".$username_id);
+    // $profile_img = '/storage/app/public/seller-banner/default.png';
+    $profile_img = url('/storage/seller-banner/banner-default.png');
+    if ($profile_path) {
+        $filename = str_replace("public/seller-banner/".$username_id."/", "", $profile_path[0]);
+        // $profile_img = url("/storage/app/public/seller-banner/".$username_id."/".$filename);
+        $profile_img = url("/storage/seller-banner/".$username_id."/".$filename);
+    }
+
+    return $profile_img;
+}
+
 function ph_regions() {
     return [
     'Region I',
