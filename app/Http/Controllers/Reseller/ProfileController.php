@@ -14,6 +14,7 @@ use App\ResellersAboutUses;
 use App\ResellersShippingPolicies;
 use App\ResellersReturnPolicies;
 use App\ResellersPaymentInformations;
+use App\ResellersProfiles;
 use Auth;
 
 class ProfileController extends Controller
@@ -156,27 +157,30 @@ class ProfileController extends Controller
                     $filename = request('username_id').".".$files->getClientOriginalExtension();
                     Storage::put("public/avatars/".request('username_id')."/".$filename,file_get_contents($files));
                 }
-                if (request('edited_content') > 0) {
-                    $resellersProfileReq = new ResellersProfileRequests();
-                    $resellersProfileReq->username_id = request('username_id');
-                    $resellersProfileReq->requested_data = json_encode($requested_data);
-                    $resellersProfileReq->save();
-                }
 
-                $files = request()->file("banner_upload");
-                if (!empty($files)) {
+                $files_banner = request()->file("banner_upload");
+                if (!empty($files_banner)) {
                     Storage::deleteDirectory("/public/seller-banner/".request('username_id'));
 
-                    $filename = request('username_id').".".$files->getClientOriginalExtension();
+                    $filename = request('username_id').".".$files_banner->getClientOriginalExtension();
                     Storage::put("public/seller-banner/".request('username_id')."/".$filename,file_get_contents($files));
                 }
+
+                $profile_details = ResellersProfiles::select('id')->where("username_id", request('username_id'))->first();
+
+                /* 
+                *Direct save socail media link
+                */
+                $save_resellersprofiles = ResellersProfiles::find($profile_details->id);
+                $save_resellersprofiles->socail_media_url = request('social_media_url');
+                $save_resellersprofiles->save();
+
                 if (request('edited_content') > 0) {
                     $resellersProfileReq = new ResellersProfileRequests();
                     $resellersProfileReq->username_id = request('username_id');
                     $resellersProfileReq->requested_data = json_encode($requested_data);
                     $resellersProfileReq->save();
                 }
-                
 
                 $errors = [];
                 $status = "sucess";

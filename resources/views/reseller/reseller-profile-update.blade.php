@@ -89,7 +89,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Primary Contact Number</label>
@@ -107,6 +106,19 @@
                                     <div class="input-group custom-input-group">
                                         <input type="number" class="form-control" name="secondary_contact_number" value="{{ isset($data->secondary_no)? $data->secondary_no->secondary_number : ""}}" disabled>
                                         <span class="input-group-addon secondary_contact_number_edit" onclick="enable_field('secondary_contact_number')">
+                                            <i class="material-icons">edit</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Social Media Link</label>
+                                    <div class="input-group custom-input-group">
+                                        <textarea name="social_media_url" class="form-control" rows="3" disabled>{{ $data->profile_details->socail_media_url}}</textarea>
+                                        <span class="input-group-addon social_media_url_edit" onclick="enable_field('social_media_url')">
                                             <i class="material-icons">edit</i>
                                         </span>
                                     </div>
