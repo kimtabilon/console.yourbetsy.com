@@ -163,7 +163,7 @@ class ProfileController extends Controller
                     Storage::deleteDirectory("/public/seller-banner/".request('username_id'));
 
                     $filename = request('username_id').".".$files_banner->getClientOriginalExtension();
-                    Storage::put("public/seller-banner/".request('username_id')."/".$filename,file_get_contents($files));
+                    Storage::put("public/seller-banner/".request('username_id')."/".$filename,file_get_contents($files_banner));
                 }
 
                 $profile_details = ResellersProfiles::select('id')->where("username_id", request('username_id'))->first();
