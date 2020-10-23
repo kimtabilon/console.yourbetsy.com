@@ -56,7 +56,7 @@ class ContentController extends Controller
         /* return view('content.manufacturer-profile',
             ['data' => $data]
         ); */
-
+        $name = urldecode($name);
         $data = ResellersProfiles::resellers_infos($name);
         $data->profile_img = getProfilePhoto($data->id);
         $data->banner_img = getBannerPhoto($data->id);
