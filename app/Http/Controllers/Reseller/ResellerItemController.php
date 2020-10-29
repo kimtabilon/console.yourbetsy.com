@@ -32,7 +32,7 @@ class ResellerItemController extends Controller
                                     ->where('parent',$reseller->id)
                                     ->pluck('username_id')->toArray();
             $seller_allowed = $sellers_second_users;
-            array_push($seller_allowed, $reseller->id);
+            array_push($seller_allowed, $reseller->username_id);
         }
         /* $data = Items::where('username_id',Auth::user()->id)
                 ->get(); */
