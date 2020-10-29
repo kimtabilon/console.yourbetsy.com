@@ -101,7 +101,7 @@ class ResellerOrderController extends Controller
                                     ->where('parent',$reseller->id)
                                     ->pluck('username_id')->toArray();
             $seller_allowed = $sellers_second_users;
-            array_push($seller_allowed, $reseller->id);
+            array_push($seller_allowed, $reseller->username_id);
         }
         $skus = Items::select('sku')
                 ->whereIn('username_id',$seller_allowed)
