@@ -17,6 +17,7 @@ use App\Items;
 use App\ItemsHistories;
 use App\ItemsCategories;
 use App\User;
+use App\ItemsVtCategories;
 
 class ProductManangementController extends Controller
 {
@@ -108,6 +109,10 @@ class ProductManangementController extends Controller
             array_push($img_list, $img_file);
         }
 
+        $cat = json_decode($data->sub_category_id);
+        $cat = is_array($cat)? $cat : [$cat];
+
+        $data->category = ItemsVtCategories::getByIDs($cat);
         $data->img = $img_list;
         $data_history = ItemsHistories::where("item_id",request('id'))->get();
         $history_arr = [];
@@ -144,7 +149,7 @@ class ProductManangementController extends Controller
 
             $history_arr[] = $row;
         }
-        $data->category = ItemsCategories::find($data->items_sub_categories->category_id)->category_name;
+        /* $data->category = ItemsCategories::find($data->items_sub_categories->category_id)->category_name; */
         $data->history =  $history_arr;
         return response()->json(["data" => $data], 200);
     }

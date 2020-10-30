@@ -622,4 +622,66 @@ button:disabled {
   display: flex;
   margin: auto;
 }
+
+.category-container {
+  /* .sub-category {
+        padding-left: 2rem;
+    }
+
+    .sub-category-container {
+        display: none;
+    } */
+}
+
+.category-container .row-add-category {
+  margin-bottom: 1rem;
+}
+
+.category-container .category-name-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  cursor: pointer;
+}
+
+.category-container .category-name-container h3 {
+  margin: 0;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.category-container .category-name-container .material-icons {
+  margin: auto 8px auto 0;
+}
+
+.category-container .category-name-container .cat-action-button-add {
+  color: #4caf50;
+}
+
+.category-container .category-name-container .cat-action-button-deact {
+  color: #f44336;
+}
+
+.category-container ul {
+  list-style: none;
+  display: none;
+  padding-left: 20px;
+}
+
+.category-container ul .category-name-container:hover .cat-action-button {
+  display: block;
+}
+
+.category-container ul .cat-action-button {
+  display: none;
+}
+
+.category-container #list_cat_ {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 /*# sourceMappingURL=custom.css.map */

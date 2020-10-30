@@ -231,15 +231,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Category</label>
-                                    <input class="form-control" type="text" name="category_v" aria-required="true" readonly>
+                                    {{-- <input class="form-control" type="text" name="category_v" aria-required="true" readonly> --}}
+                                    <div class="view-category-container">
+                                        
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Sub Category</label>
                                     <input class="form-control" type="text" name="sub_category_v" aria-required="true" readonly>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -491,8 +494,8 @@
             success:function(data) {
                 data = data.data;
                 $('[name="sku_v"]').val(data.sku);
-                $('[name="category_v"]').val(data.category);
-                $('[name="sub_category_v"]').val(data.items_sub_categories.sub_category_name);
+                /* $('[name="category_v"]').val(data.category);
+                $('[name="sub_category_v"]').val(data.items_sub_categories.sub_category_name); */
                 $('[name="product_name_v"]').val(data.product_name);
                 $('[name="description_v"]').text(data.product_desc);
                 $('[name="short_description_v"]').text(data.product_shortdesc);
@@ -504,6 +507,13 @@
                 $('[name="date_start_v"]').val(data.date_start);
                 $('[name="date_end_v"]').val(data.date_end);
                 $('[name="made_in_v"]').val(data.made_in);
+
+                $('.view-category-container').html('');
+                $.each( data.category, function( key, value ) {
+                    $('.view-category-container').append("\
+                    <input class=\"form-control\" type=\"text\" name=\"view_cat_"+value.id+"\" value=\""+value.category_name+"\" readonly>\
+                    ");
+                });
                 
                 $('#view_product_img').empty();
                 $.each( data.img, function( key, value ) {

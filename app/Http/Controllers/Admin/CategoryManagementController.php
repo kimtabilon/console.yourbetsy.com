@@ -6,39 +6,108 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-use App\ItemsCategories;
+// use App\ItemsCategories;
+use App\ItemsVtCategories;
 use App\ItemsSubCategories;
 
 class CategoryManagementController extends Controller
 {
     public function index() {
-        $active = ItemsCategories::with(['items_sub_categories'])->where("status",0)->get();
-        $inactive = ItemsCategories::where("status",1)->get();
+
         return view('admin.admin-category',[
-            'active' => $active,
-            'inactive' => $inactive
+            'active' => $this->categoryListByStatus(0),
+            'inactive' => $this->categoryListByStatus(1)
         ]);
     }
 
+    public function categoryListByStatus($status) {
+        $result = ItemsVtCategories::where("status", $status)->get();
+        $menuItens = array();
+        foreach ($result as $row ){
+            $menuItens[$row->related_category_id][$row->id] = array('id' => $row->id,'name' => $row->category_name,'status' => $row->status);
+        }
+
+        $res = '';
+        if (count($menuItens)) {
+            $res = $this->create_menu($menuItens);
+        }
+
+        $this->cat_html = '';
+        $this->ul_id = '';
+        return $res;
+    }
+
+    public $cat_html = '';
+    public $ul_id = '';
+
+    public function create_menu(array $arrayItem, $id_parent = 0, $level = 0) {
+
+        $this->cat_html .= str_repeat("" , $level ).'<ul id="list_cat_'.$this->ul_id.'">';
+        foreach( $arrayItem[$id_parent] as $id_item => $item){
+
+            if ($item['status'] == 0) {
+                $this->cat_html .= str_repeat("" , $level + 1 ).'
+                    <li>
+                    <div class="category-name-container">
+                        <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
+                        <i class="material-icons cat-action-button cat-action-button-update" onclick="show_update_modal(\''.$item['id'].'\',\''.$item['name'].'\')">edit</i>
+                        <i class="material-icons cat-action-button cat-action-button-add" onclick="add_category(\''.$item['id'].'\')">library_add</i>
+                        <i class="material-icons cat-action-button cat-action-button-deact" onclick="show_remove_modal(\''.$item['id'].'\')">clear</i>
+                    </div>';
+            }else {
+                $this->cat_html .= str_repeat("" , $level + 1 ).'
+                    <li>
+                    <div class="category-name-container">
+                        <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
+                        <i class="material-icons cat-action-button cat-action-button-add" onclick="show_reactivate_modal(\''.$item['id'].'\')">autorenew</i>
+                    </div>';
+            }
+            
+            if(isset( $arrayItem[$id_item] ) ){
+                $this->ul_id = $item['id'];
+                $this->create_menu($arrayItem , $id_item , $level + 1);
+            }
+            $this->cat_html .=  str_repeat("" , $level + 1 ).'</li>';
+        }
+        $this->cat_html .=  str_repeat("" , $level ).'</ul>';
+        return $this->cat_html;
+    } 
+
+    function buildCatTable($parent = 0 ,$level=0) {
+        $cats = ItemsVtCategories::getByParentID($parent);
+        
+        foreach($cats as $cat) {
+            echo "<tr>"."<td>". str_repeat("| - -  ".str_repeat('&nbsp;', $level), $level). $cat->category_name . "</tr>"."</td><br>";
+            $this->buildCatTable($cat->id,$level +1);
+        }
+    }
+
+
+
     public function add() {
-        $required_validation = Validator::make(request()->all(),['category_name' => ['required','unique:items_categories,category_name']]);
+        $required_validation = Validator::make(request()->all(),['category_name' => ['required','unique:items_vt_categories,category_name']]);
         if ($required_validation->fails()) {   
             $errors = $required_validation->messages();
             $status = "error";
         }else {
             /* Add Category to store */
+            $item_category_details = ItemsVtCategories::find(request('category_id'));
+            $parent_id = isset($item_category_details->store_cat_id) ? $item_category_details->store_cat_id : 2;
+            
             $store_data = [
                 'action' => "add",
-                'parent_id' => 2,
+                'parent_id' => $parent_id,
                 'name' => ucwords(request('category_name')),
                 'level' => 2
             ];
             $res_addcatstore = $this->addCategoryInStore($store_data);
             $res_addcatstore = json_decode($res_addcatstore);
 
-            $category = new ItemsCategories;
+            $category = new ItemsVtCategories;
             $category->category_name = ucwords(request('category_name'));
             $category->store_cat_id = $res_addcatstore->id;
+            /* $category->store_cat_id = 0; */
+            $category->related_category_id = request('category_id');
             $category_saved = $category->save();
             
             $status = "success";
@@ -49,9 +118,10 @@ class CategoryManagementController extends Controller
     }
 
     public function update() {
-        $category = ItemsCategories::find(request("category_id"));
+        $category = ItemsVtCategories::find(request("category_id"));
+        
         if (request("category_name") != $category->category_name) {
-            $data_validation = ['required','unique:items_categories,category_name'];
+            $data_validation = ['required','unique:items_vt_categories,category_name'];
         }else{
             $data_validation = ['required'];
         }
@@ -63,9 +133,10 @@ class CategoryManagementController extends Controller
         }else {
 
             /* Update Category to store */
+            $parent_id = $category->related_category_id == 0 ? 2 : $category->related_category_id;
             $store_data = [
                 'action' => "update",
-                'parent_id' => 2,
+                'parent_id' => $parent_id,
                 'name' => ucwords(request('category_name')),
                 'level' => 2,
                 'cat_id' => $category->store_cat_id
@@ -83,7 +154,7 @@ class CategoryManagementController extends Controller
     }
 
     public function change_status() {
-        $category = ItemsCategories::find(request("deact_category_id"));
+        $category = ItemsVtCategories::find(request("deact_category_id"));
         $category->status = request('status');
         $category_saved = $category->save();
 
@@ -228,7 +299,6 @@ class CategoryManagementController extends Controller
 
         $token_details = storeToken();
 
-        
         switch ($data['action']) {
             case 'add':
                 $ch = curl_init($token_details['domain']."rest/V1/categories");

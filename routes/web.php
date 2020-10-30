@@ -77,6 +77,8 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth:reseller']], function
     Route::post('/items/view', 'Reseller\ResellerItemController@item_details');
     Route::post('/items/sub-category', 'Reseller\ResellerItemController@sub_category');
     Route::post('/items/update_pq','Reseller\ResellerItemController@update_pq_item');
+    Route::post('/items/categories','Reseller\ResellerItemController@getCategoriesPerLevel');
+    Route::post('/items/catfirstlevel','Reseller\ResellerItemController@categoryList');
 
     Route::get('/order','Reseller\ResellerOrderController@index')->name('reseller.order');
     Route::post('/order-ship','Reseller\ResellerOrderController@ship_order')->name('reseller.order-ship');

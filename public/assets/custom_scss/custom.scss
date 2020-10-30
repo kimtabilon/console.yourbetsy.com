@@ -591,3 +591,63 @@ button:disabled {
     display: flex;
     margin: auto;
 }
+
+.category-container {
+    .row-add-category {
+        margin-bottom: 1rem;
+    }
+    .category-name-container {
+        display: flex;
+        width: max-content;
+        cursor: pointer;
+
+        h3 {
+            margin: 0;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .material-icons {
+            margin: auto 8px auto 0;
+        }
+
+        .cat-action-button-add {
+            color: #4caf50;
+        }
+
+        .cat-action-button-deact {
+            color: #f44336;
+        }
+    }
+
+    ul {
+        list-style: none;
+        display: none;
+        padding-left: 20px;
+
+        .category-name-container:hover {
+            .cat-action-button {
+                display: block;
+            }
+        }
+
+        .cat-action-button {
+            display: none;
+        }
+        
+    }
+
+    #list_cat_ {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* .sub-category {
+        padding-left: 2rem;
+    }
+
+    .sub-category-container {
+        display: none;
+    } */
+}

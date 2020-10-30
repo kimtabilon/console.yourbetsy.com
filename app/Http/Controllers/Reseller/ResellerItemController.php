@@ -14,6 +14,7 @@ use App\ItemsHistories;
 use App\ItemsCategories;
 use App\ItemsSubCategories;
 use App\ResellersProfiles;
+use App\ItemsVtCategories;
 use Auth;
 
 class ResellerItemController extends Controller
@@ -98,7 +99,9 @@ class ResellerItemController extends Controller
                         ->where('username_id',Auth::user()->id) 
                         ->get(); */
 
-        $category_list = ItemsCategories::where("status",0)->get();
+        // $category_list = ItemsCategories::where("status",0)->get();
+
+        $category_list = $this->categoryList();
         return view('reseller.reseller-items',[
             'pending_item' => $pending_items,
             /* 'declined_item' => $deactivated_items,
@@ -118,7 +121,7 @@ class ResellerItemController extends Controller
             'quantity' => ['required','numeric','min:0','not_in:0'],
             'handling_time' => ['required'],
             'product_images' => ['required'],
-            'sub_category' => ['required'],
+            /* 'sub_category' => ['required'], */
             'shipping_fee' => ['required','numeric','min:0','not_in:0'],
             'special_price' => ['not_in:0'],
         ];
@@ -133,7 +136,7 @@ class ResellerItemController extends Controller
                 'quantity' => ['required','numeric','min:0','not_in:0'],
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
-                'sub_category' => ['required'],
+                /* 'sub_category' => ['required'], */
                 'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
@@ -150,13 +153,23 @@ class ResellerItemController extends Controller
                 'quantity' => ['required','numeric','min:0','not_in:0'],
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
-                'sub_category' => ['required'],
+                /* 'sub_category' => ['required'], */
                 'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'special_price' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
             ];
         }
+        $cat_level_count = request('cat_level');
+        $cat_level_name = 'category_'.$cat_level_count;
+        $validate_cat = [];
+        $validate_cat['category_'.$cat_level_count] =  ['required'];
+        /* for ($i=1; $i < $cat_level_count; $i++) { 
+            $cat_field_name = 'category_'.$i;
+            $validate_cat[$cat_field_name] =  ['required'];
+        } */
+
+        $validate_data = array_merge($validate_data, $validate_cat);
         $required_validation = Validator::make(request()->all(),$validate_data);
         
 
@@ -164,9 +177,16 @@ class ResellerItemController extends Controller
             $errors = $required_validation->messages();
             $status = "error";
         }else {
+            $cat_level_count++;
+            $cat_list = [];
+            for ($i=1; $i < $cat_level_count; $i++) { 
+                $cat_field_name = 'category_'.$i;
+                $cat_list[] = request($cat_field_name);
+            }
+            
             $items = New Items();
             $items->sku = strtoupper(request('sku'));
-            $items->sub_category_id = request('sub_category');
+            $items->sub_category_id = json_encode($cat_list);
             $items->product_name = request('product_name');
             $items->product_desc = request('description');
             $items->product_shortdesc = request('short_description');
@@ -260,7 +280,11 @@ class ResellerItemController extends Controller
             // array_push($img_list, asset($img_url));
             $img_list[] = $row_arr;
         }
-        $data->category = ItemsCategories::find($data->items_sub_categories->category_id)->category_name;
+        // $data->category = ItemsCategories::find($data->items_sub_categories->category_id)->category_name;
+        $cat = json_decode($data->sub_category_id);
+        $cat = is_array($cat)? $cat : [$cat];
+
+        $data->category = ItemsVtCategories::getByIDs($cat);
         $data->img = $img_list;
         return response()->json(["data" => $data], 200);
     }
@@ -276,7 +300,7 @@ class ResellerItemController extends Controller
             'quantity' => ['required','numeric','min:0','not_in:0'],
             'handling_time' => ['required'],
             'product_images' => ['required'],
-            'sub_category' => ['required'],
+            /* 'sub_category' => ['required'], */
             'shipping_fee' => ['required','numeric','min:0','not_in:0'],
             'special_price' => ['not_in:0'],
         ];
@@ -291,7 +315,7 @@ class ResellerItemController extends Controller
                 'quantity' => ['required','numeric','min:0','not_in:0'],
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
-                'sub_category' => ['required'],
+                /* 'sub_category' => ['required'], */
                 'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
@@ -308,14 +332,18 @@ class ResellerItemController extends Controller
                 'quantity' => ['required','numeric','min:0','not_in:0'],
                 'handling_time' => ['required'],
                 'product_images' => ['required'],
-                'sub_category' => ['required'],
+                /* 'sub_category' => ['required'], */
                 'shipping_fee' => ['required','numeric','min:0','not_in:0'],
                 'special_price' => ['required','numeric','min:0','not_in:0'],
                 'date_start' => ['required', 'date' ,'date_format:m/d/Y'],
                 'date_end' => ['required', 'date' ,'date_format:m/d/Y']
             ];
         }
-
+        $cat_level_count = request('cat_level');
+        $cat_level_name = 'category_'.$cat_level_count;
+        $validate_cat = [];
+        $validate_cat['category_'.$cat_level_count] =  ['required'];
+        $validate_data = array_merge($validate_data, $validate_cat);
         if (request('img_count') == 0) {
             $validate_data = array_merge($validate_data,['product_images' => ['required']]);
         }
@@ -591,6 +619,55 @@ class ResellerItemController extends Controller
         }
         
         return response()->json(["status" => $status,"errors" => $errors], 200);
+    }
+
+    public $level = '';
+    public $cat_html = '';
+
+    public function getCategoriesPerLevel() {
+        $result = ItemsVtCategories::where("status", 0)->where('related_category_id', request('parent_id'))->get();
+
+        return response()->json($result, 200);
+    }
+
+    public function getCategories(array $arrayItem, $id_parent = 0, $level = 0) {
+        if ($level == 0) {
+            // $this->cat_html .= '<select class="form-control _category" name="category_0" id="category_0">';
+        }
+        foreach( $arrayItem[$id_parent] as $id_item => $item){
+            if ($level == 0) {
+                $this->cat_html .= str_repeat("" , $level + 1 ).'
+                <option value="'.$item['id'].'">'.$item['name'].'</option>';
+            }
+            
+            if(isset( $arrayItem[$id_item] ) ){
+                $this->getCategories($arrayItem , $id_item , $level + 1);
+            }
+            // $this->cat_html .=  str_repeat("" , $level + 1 ).'</li>';
+        }
+        if ($level == 0) {
+            // $this->cat_html .=  str_repeat("" , $level ).'</select>';
+        }
+
+        return $this->cat_html;
+        
+    }
+
+    public function categoryList() {
+        $result = ItemsVtCategories::where("status", 0)->get();
+        $menuItens = array();
+        foreach ($result as $row ){
+            $menuItens[$row->related_category_id][$row->id] = array('id' => $row->id,'name' => $row->category_name);
+        }
+
+        $category_list = '';
+        if (count($menuItens)) {
+            $category_list = $this->getCategories($menuItens);
+            $category_list = '<select class="form-control _category" name="category_1" id="category_1">
+                                <option value="" selected>Select Category</option>'.$category_list.'</select>';
+        }
+
+        return $category_list;
     }
 
     public function updateItemDetailsToStore($items) {

@@ -22,68 +22,71 @@
                                 <input type="checkbox" class="js-switch switch-category"/>
                             </div>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-12">
-                                
-                                <div class="category-container">
-                                    {{-- <div class="main-category">
-                                        <div class="category-name-container _category" id="cat_1">
-                                            <h3>Test</h3>
-                                            <span class="material-icons" id="add_id_1">library_add</span>
-                                        </div>
-
-                                        <div class="sub-category-container" id="list_cat_1">
-                                            <div class="sub-category">
-                                                <div class="category-name-container _category" id="cat_2">
-                                                    <h3>Sub 1</h3>
-                                                    <span class="material-icons" id="add_id_2">library_add</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="sub-category">
-                                                <div class="category-name-container _category" id="cat_5">
-                                                    <h3>Sub 2</h3>
-                                                    <span class="material-icons" id="id_4">library_add</span>
-                                                </div>
-
-                                                <div class="sub-category-container" id="list_cat_5">
-                                                    <div class="sub-category">
-                                                        <div class="category-name-container _category" id="cat_10">
-                                                            <h3>Sub 2 . 1</h3>
-                                                            <span class="material-icons" id="id_10">library_add</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sub-category">
-                                                        <div class="category-name-container _category" id="cat_22">
-                                                            <h3>Sub 2 . 2</h3>
-                                                            <span class="material-icons" id="id_22">library_add</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div> --}}
-
-                                    <div class="active-category">
-                                        <div class="row row-add-category">
-                                            <div class="col-md-12">
-                                                <button onclick="open_modal_add()" class="btn btn-primary reseller-color-bg pull-left">Add Main Category</button>
-                                            </div>
-                                        </div>
-                                        {!! $active !!}
-                                    </div>
-                                    <div class="inactive-category">{!! $inactive !!}</div>
-                                    
-                                </div>
-
-                            </div>
+                        <div class="table-responsive" id="active_tbl">
+                            <table class="table" id="active_category_tbl">
+                                <thead class=" text-primary">
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                @foreach ($active as $info)
+                                    <tr>
+                                        <td>{{ $info->category_name }}</td>
+                                        <td>{{ Status_type_category($info->status)}}</td>
+                                        <td class="td-actions text-center">
+                                            <button type="button" rel="tooltip" onclick="show_update_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-success btn-link" title="Update">
+                                                <i class="material-icons">edit</i>
+                                            <div class="ripple-container"></div></button>
+                                            {{-- @php 
+                                                if ($info->sub_category) {
+                                                    $disable_deactivation = "";
+                                                }else{
+                                                    $disable_deactivation = "disabled";
+                                                }
+                                            @endphp --}}
+                                            <button type="button" rel="tooltip" onclick="show_remove_modal({{$info->id}})" class="btn btn-danger btn-link" title="Deactivate">
+                                                <i class="material-icons">clear</i>
+                                            <div class="ripple-container"></div></button>
+                                            {{-- <button type="button" rel="tooltip" onclick="show_delete_modal({{$info->id}})" class="btn btn-danger btn-link">
+                                                <i class="material-icons">delete</i>
+                                            <div class="ripple-container"></div></button> --}}
+                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-info btn-link" title="View">
+                                                <i class="material-icons">local_hospital</i>
+                                            <div class="ripple-container"></div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
 
-
-
+                        <div class="table-responsive" id="inactive_tbl" style="display: none">
+                            <table class="table" id="inactive_category_tbl">
+                                <thead class=" text-primary">
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                @foreach ($inactive as $info)
+                                    <tr>
+                                        <td>{{ $info->category_name }}</td>
+                                        <td>{{ Status_type_category($info->status)}}</td>
+                                        <td class="td-actions text-center">
+                                            <button type="button" rel="tooltip" onclick="show_reactivate_modal({{$info->id}})" class="btn btn-success btn-link" title="Reactivate">
+                                                <i class="material-icons">autorenew</i>
+                                            <div class="ripple-container"></div></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <button onclick="open_modal_add()" class="btn btn-primary reseller-color-bg pull-right">
+                            Add
+                        </button>
                     </div>
                 </div>
             </div>
@@ -93,7 +96,7 @@
 
 {{-- MODALS --}}
 {{-- Approved Modal --}}
-<div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="add_edit_verify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -363,21 +366,16 @@
     var save_method_subcat = "";
     var view_modal_id,view_categoryname;
     $(document).ready(function() {
-        /* CATEGORY ACTION */
-        show_sub_category();
-
-
         $('#active_category_tbl').DataTable();
         $('#inactive_category_tbl').DataTable();
         $('#subcategory_active_tbl').DataTable();
         $('#subcategory_inactive_tbl').DataTable();
 
         var switchery = new Switchery(document.querySelector('.switch-category'), { size: 'small' });
-        /* var switchery_2 = new Switchery(document.querySelector('.switch-sub-category'), { size: 'small' }); */
+        var switchery_2 = new Switchery(document.querySelector('.switch-sub-category'), { size: 'small' });
 
         switch_tbl();
-        $('.inactive-category').hide();
-        /* switch_tbl_subcat(); */
+        switch_tbl_subcat();
 
         // saving_modal("show");
 
@@ -395,16 +393,16 @@
     function switch_tbl() {
         $('.switch-category').on('change', function() {
             if ($(this).is(":checked")) {
-                $('.active-category').hide();
-                $('.inactive-category').fadeIn();
+                $('#active_tbl').hide();
+                $('#inactive_tbl').fadeIn();
             } else {
-                $('.active-category').fadeIn();
-                $('.inactive-category').hide();
+                $('#active_tbl').fadeIn();
+                $('#inactive_tbl').hide();
             }
         });
     }
 
-    /* function switch_tbl_subcat() {
+    function switch_tbl_subcat() {
         $('.switch-sub-category').on('change', function() {
             if ($(this).is(":checked")) {
                 $('#subcategory_active_tbl_c').hide();
@@ -414,14 +412,13 @@
                 $('#subcategory_inactive_tbl_c').hide();
             }
         });
-    } */
+    }
 
     function open_modal_add() {
         $('#add_edit_frm')[0].reset();
-        $('[name="category_id"]').val(0);
         save_method = "Add";
         $('.add_edit_title').html(save_method);
-        $('#add_modal').modal('show');
+        $('#add_edit_verify').modal('show');
     }
 
     function open_modal_add_subcat(id,category_name) {
@@ -453,7 +450,7 @@
         $('.add_edit_title').html(save_method);
         $('[name="category_id"]').val(id);
         $('[name="category_name"]').val(category_name);
-        $('#add_modal').modal('show');
+        $('#add_edit_verify').modal('show');
     }
 
     function show_remove_modal(id) {
@@ -572,7 +569,7 @@
     $("#add_edit_frm" ).submit(function( e ) {
         e.preventDefault();
 
-        $('#add_modal').modal('hide');
+        $('#add_edit_verify').modal('hide');
         saving_modal("show");
 
         $.ajaxSetup({
@@ -606,7 +603,7 @@
                     });
                     modalAlert({"type":"error","message":error_message, 
                         "action": function(){ 
-                            $('#add_modal').modal('show');
+                            $('#add_edit_verify').modal('show');
                             saving_modal("hide"); 
                         }
                     });
@@ -839,22 +836,6 @@
         });
         
     });
-
-    function show_sub_category() {
-        $(document).on('click','._category', function() {
-            var id = this.id;
-            $('#list_'+id).slideToggle();
-
-        });
-    }
-
-    function add_category(cat_id) {
-        $('#add_edit_frm')[0].reset();
-        $('[name="category_id"]').val(cat_id);
-        save_method = "Add";
-        $('.add_edit_title').html(save_method);
-        $('#add_modal').modal('show');
-    }
 </script>
 
 

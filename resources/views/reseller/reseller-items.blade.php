@@ -258,22 +258,26 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Category</label>
-                                    <select class="form-control" name="category" >
+                                    {{-- <select class="form-control" name="category" >
                                         <option value="" selected>Select Category</option>
                                         @foreach ($category as $item)
                                             <option value="{{$item->id}}">{{$item->category_name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+                                    <input type="hidden" name="cat_level">
+                                    <div class="category-container">
+                                        {!!$category!!}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Sub Category</label>
                                     <select class="form-control" name="sub_category" >
                                         <option value="" selected>Select Sub Category</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -439,15 +443,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Category</label>
-                                    <input class="form-control" type="text" name="category_v" aria-required="true" readonly>
+                                    {{-- <input class="form-control" type="text" name="category_v" aria-required="true" readonly> --}}
+                                    <div class="view-category-container">
+                                        
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Sub Category</label>
                                     <input class="form-control" type="text" name="sub_category_v" aria-required="true" readonly>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -738,7 +745,41 @@
         date_range_format('date_start_update','date_end_update');
         
 
+        /* for (var i = 2; i <= 5; i++) {
+            console.log(i);
+        } */
+        $(document).on('change','._category', function() {
+            var id = this.id;
+            var value = this.value;
+            var selected_cat = $('#'+id).val();
+            var level_count = id.replace('category_','');
+            var level_selected = $('[name="cat_level"]').val();
+            /* console.log(value); */
+            // if ( level_count != level_selected && level_count != 0 && selected_cat != '') {
+            if ( level_count != level_selected && level_count != 0) {
+                
+                var level_to_delete = level_count;
+                level_to_delete++;
+                console.log('level selected = '+level_to_delete);
+                console.log('level list = '+level_selected);
+                for (var i = level_to_delete; i <= level_selected; i++) {
+                    console.log(i);
+                    $('#category_'+i).remove();
+                }
+
+                $('[name="cat_level"]').val(level_count);
+            }
+
+            if (selected_cat != '') {
+
+                
+                categoryByLevel(level_count, value);
+            }
+            
+        })
     });
+
+    var selected_cat_list = [];
 
     $(document).on('change','[name="category"]', function() {
         subcategory_Bycategory($(this).val());
@@ -752,6 +793,7 @@
         $("#add_item_frm").find(".form-group").addClass("bmd-form-group"); */
         // $(".file-upload").html('<span class="file-upload-direction">Click here to upload image</span>');
        /*  $(".file-upload").prop("onclick","trigger_upload();"); */
+        catfirstlevel();
         $('#modal_add').modal('show');
     }
 
@@ -795,7 +837,8 @@
                 $('[name="date_start"]').val(data.date_start);
                 $('[name="date_end"]').val(data.date_end);
                 $('[name="made_in"]').val(data.made_in);
-                
+
+                catfirstlevel();
                 $('.file-upload').empty();
                 var img_count = 1;
                 $.each( data.img, function( key, value ) {
@@ -821,6 +864,8 @@
         $('#add_item_frm')[0].reset();
         $("#add_item_frm").find("input,textarea").removeClass("required-error");
         $("#add_item_frm").find("textarea").text("");
+        $('[name="cat_level"]').val(1);
+        $('.category-container').html('');
         /* $(".file-upload").find("img").remove();
         $(".file-upload").find("span").show(); */
         $(".file-upload").empty();
@@ -916,8 +961,8 @@
             success:function(data) {
                 data = data.data;
                 $('[name="sku_v"]').val(data.sku);
-                $('[name="category_v"]').val(data.category);
-                $('[name="sub_category_v"]').val(data.items_sub_categories.sub_category_name);
+                /* $('[name="category_v"]').val(data.category);
+                $('[name="sub_category_v"]').val(data.items_sub_categories.sub_category_name); */
                 $('[name="product_name_v"]').val(data.product_name);
                 $('[name="description_v"]').text(data.product_desc);
                 $('[name="short_description_v"]').text(data.product_shortdesc);
@@ -934,6 +979,13 @@
                 /* $.each( data.img, function( key, value ) {
                     $('#view_product_img').append("<img src='"+value+"'/>");
                 }); */
+                $('.view-category-container').html('');
+                $.each( data.category, function( key, value ) {
+                    $('.view-category-container').append("\
+                    <input class=\"form-control\" type=\"text\" name=\"view_cat_"+value.id+"\" value=\""+value.category_name+"\" readonly>\
+                    ");
+                });
+
                 $.each( data.img, function( key, value ) {
                     $('#view_product_img').append("\
                         <div class=\"img-container\" >\
@@ -1254,6 +1306,59 @@ function date_range_format(start,end) {
             startDateTextBox.datepicker('option', 'maxDate', endDateTextBox.datepicker('getDate') );
         }
     });
+}
+
+function categoryByLevel(level,parent_id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type:'POST',
+        url:'/vendor/items/categories',
+        data:{
+            level: level,
+            parent_id: parent_id
+        },
+        dataType: 'json',
+        success:function(data) {
+            if (data.length) {
+                level++;
+                var dropdown_category = '<option value="">Select Category</option>';
+                $.each(data, function( index, value ) {
+                    dropdown_category += '<option value="'+value.id+'">'+value.category_name+'</option>';
+                });
+                $('.category-container').append(
+                    '<select class="form-control _category" name="category_'+level+'" id="category_'+level+'">'+dropdown_category+'</select>'
+                );
+                
+                
+                $('[name="cat_level"]').val(level);
+            }
+            
+
+        
+        }
+    });
+
+}
+
+function catfirstlevel() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type:'POST',
+        url:'/vendor/items/catfirstlevel',
+        /* dataType: 'json', */
+        success:function(data) {
+            $('.category-container').html(data);
+        }
+    });
+
 }
 </script>
 @endsection 
