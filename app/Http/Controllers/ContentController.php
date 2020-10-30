@@ -64,6 +64,7 @@ class ContentController extends Controller
     }
 
     public function gallery($sku) {
+        $sku = urldecode($sku);
         $sku = strtolower($sku);
         $img = Storage::allFiles("/public/items/".$sku);
         $data = [];
