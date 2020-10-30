@@ -34,6 +34,7 @@ class ContentController extends Controller
     }
 
     public function description($sku) {
+        $sku = urldecode($sku);
         $item = Items::where('sku',$sku)->first();
         $desc = '';
         if (isset($item->product_desc)) {
