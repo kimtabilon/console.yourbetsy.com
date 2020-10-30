@@ -10,6 +10,7 @@ use App\ResellersProfiles;
 class ContentController extends Controller
 {
     public function details($sku) {
+        $sku = urldecode($sku);
         $img = Storage::allFiles("/public/items/".strtolower($sku));
         $img_file = ['https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRVX4RgUYvaDyHQaEiejmjMy0ZbuEPqGkOwsxq9oAmPl3MQJIRC'];
         $name = '';
@@ -83,6 +84,7 @@ class ContentController extends Controller
     }
 
     public function manufacturer_policies($sku) {
+        $sku = urldecode($sku);
         $data = Items::select('username_id')
                     ->with(
                         [
