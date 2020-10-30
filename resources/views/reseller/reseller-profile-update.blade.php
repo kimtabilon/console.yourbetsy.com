@@ -156,15 +156,17 @@
     });
     
 
-    function enable_field(field_name) {
-        $('[name="'+field_name+'"]').prop('disabled',false).focus();
-        $('[name="'+field_name+'"]').prop('required',true);
-        $('.'+field_name+'_edit').hide();
+    function enable_field(field_name = false) {
+        if (field_name) {
+            $('[name="'+field_name+'"]').prop('disabled',false).focus();
+            $('[name="'+field_name+'"]').prop('required',true);
+            $('.'+field_name+'_edit').hide();
 
-        if (field_name != "social_media_url") {
-            enabled_field_count++;  
+            if (field_name != "social_media_url") {
+                enabled_field_count++;  
+            }
+            $('[name="edited_content"]').val(enabled_field_count);
         }
-        $('[name="edited_content"]').val(enabled_field_count);
         
         if ($('#btn_submit').prop('disabled') == true) {
             $('#btn_submit').prop('disabled',false);
