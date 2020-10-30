@@ -26,7 +26,7 @@ class ProductManangementController extends Controller
         return view('admin.verify-product',[
             'pending_products' => $pending_items
         ]); */
-        $data = Items::with(['profile','item_histories'])->where('status', 1)->get();
+        $data = Items::with(['profile','item_histories'])->where('status', 1)->orderBy('id', 'DESC')->get();
         $pending_items = [];
         foreach ($data as $key => $value) {
             $row = new stdClass;
@@ -55,7 +55,7 @@ class ProductManangementController extends Controller
             $pending_items[] = $row;
         }
 
-        $data_declined = Items::with(['profile','item_histories'])->where('status', 2)->get();
+        $data_declined = Items::with(['profile','item_histories'])->where('status', 2)->orderBy('id', 'DESC')->get();
         $pending_items_declined = [];
         foreach ($data_declined as $key => $value) {
             $row = new stdClass;
@@ -87,8 +87,8 @@ class ProductManangementController extends Controller
     }
 
     public function active_products() {
-        $active_items = Items::with(['profile','item_histories'])->where('status', 0)->get();
-        $sus_dis_items = Items::with(['profile','item_histories'])->whereIn('status', [3,4])->get();
+        $active_items = Items::with(['profile','item_histories'])->where('status', 0)->orderBy('id', 'DESC')->get();
+        $sus_dis_items = Items::with(['profile','item_histories'])->whereIn('status', [3,4])->orderBy('id', 'DESC')->get();
         return view('admin.suspend_disable-product',[
             'active_products' => $active_items,
             'sus_dis_products' => $sus_dis_items
