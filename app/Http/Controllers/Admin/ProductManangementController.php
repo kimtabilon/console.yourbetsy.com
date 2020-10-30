@@ -172,7 +172,7 @@ class ProductManangementController extends Controller
             $item_history->action = request('action');
             $item_history_saved = $item_history->save();
             
-            $product = Items::with(['profile','email_add','items_sub_categories'])->find(request('verify_product_id'));
+            $product = Items::with(['profile','email_add'])->find(request('verify_product_id'));
             $email_type = "";
             $email_stat = request('status');
 
@@ -296,7 +296,6 @@ class ProductManangementController extends Controller
     } */
 
     public function addItemDetailsToStore($items) {
-
         $betsy_api = "http://yourbetsy.com/rest/V1/mjsi-distribution/post/getProducts";
         $json_data = cleanJson(file_get_contents($betsy_api));
         $json_data = json_decode($json_data);
@@ -313,7 +312,21 @@ class ProductManangementController extends Controller
             $token_details = storeToken();
             $ch = curl_init($token_details['domain']."/rest/V1/products");
 
-            $category = ItemsCategories::find($items->items_sub_categories->category_id);
+            // $category = ItemsCategories::find($items->items_sub_categories->category_id);
+            $cat_ids = json_decode($items->sub_category_id);
+            $cat_ids = is_array($cat_ids)? $cat_ids : [$cat_ids];
+            $get_category = ItemsVtCategories::getByIDs($cat_ids);
+
+            $category = [];
+            $position_count = 0;
+            foreach ($get_category as $value) {
+                $position_count++;
+                $category[] = [
+                    "position" => $position_count,
+                    "category_id" => $value->store_cat_id
+                ];
+            }
+            /* dd($category); */
             // $country_of_manufacture = ($items->made_in? $items->made_in : "");
 
             $json = new stdClass;
@@ -328,7 +341,9 @@ class ProductManangementController extends Controller
                     "type_id" => "simple",
                     "weight" => "0",
                     "extension_attributes" => [
-                        "category_links" =>[
+                        "category_links" => $category,
+                        
+                        /* [
                             [
                                 "position" => 0,
                                 "category_id" => $category->store_cat_id
@@ -337,7 +352,7 @@ class ProductManangementController extends Controller
                                 "position" => 1,
                                 "category_id" => $items->items_sub_categories->store_subcat_id
                             ],
-                        ],
+                        ], */
                         "stock_item" =>[
                             "qty" => $items->quantity,
                             "is_in_stock" => true
@@ -393,7 +408,8 @@ class ProductManangementController extends Controller
                     "type_id" => "simple",
                     "weight" => "0",
                     "extension_attributes" => [
-                        "category_links" =>[
+                        "category_links" => $category,
+                        /* [
                             [
                                 "position" => 0,
                                 "category_id" => $category->store_cat_id
@@ -402,7 +418,7 @@ class ProductManangementController extends Controller
                                 "position" => 1,
                                 "category_id" => $items->items_sub_categories->store_subcat_id
                             ],
-                        ],
+                        ], */
                         "stock_item" =>[
                             "qty" => $items->quantity,
                             "is_in_stock" => true
