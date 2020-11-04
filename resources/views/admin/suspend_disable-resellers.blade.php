@@ -329,7 +329,7 @@
         $('#modal_suspend_disable').modal('show');
     }
 
-    function show_view_modal(status_id,id) {
+    function show_view_modal(status_id,seller_name) {
         $('#modal_view').modal('show');
         $.ajaxSetup({
             headers: {
@@ -338,8 +338,8 @@
         });
         $.ajax({
             type:'POST',
-            url:'/admin/vendor/verify/view',
-            data:{id: id},
+            url:'/admin/vendor/verify/view-status-id',
+            data:{id: status_id},
             dataType: 'json',
             success:function(data) {
                 $('[name="username_v"]').val(data.username);
