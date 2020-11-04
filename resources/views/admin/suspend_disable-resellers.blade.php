@@ -329,7 +329,7 @@
         $('#modal_suspend_disable').modal('show');
     }
 
-    function show_view_modal(id) {
+    function show_view_modal(status_id,id) {
         $('#modal_view').modal('show');
         $.ajaxSetup({
             headers: {
