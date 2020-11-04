@@ -349,7 +349,7 @@
         });
         $.ajax({
             type:'POST',
-            url:'/admin/vendor/verify/view',
+            url:'/admin/vendor/verify/view-status-id',
             data:{id: id},
             dataType: 'json',
             success:function(data) {

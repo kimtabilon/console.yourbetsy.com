@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/vendor/verify', 'Admin\ResellerManagementController@pending_resellers')->name('admin.reseller-verify');
         Route::match(['put', 'patch'],'/vendor/change_status','Admin\ResellerManagementController@reseller_change_status');
         Route::post('/vendor/verify/view', 'Admin\ResellerManagementController@view_reseller_detalis');
+        Route::post('/vendor/verify/view-status-id', 'Admin\ResellerManagementController@view_reseller_detalis_bystatusID');
         Route::get('/vendor/suspend-disable', 'Admin\ResellerManagementController@active_resellers')->name('admin.reseller-suspend_disable');
         Route::get('/vendor/profile-update-request', 'Admin\ResellerManagementController@reseller_profile_update_request')->name('admin.reseller-profile-update-request');
         Route::match(['put', 'patch'],'/vendor/profile-update-request','Admin\ResellerManagementController@reseller_change_profilerequest_status');

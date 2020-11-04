@@ -68,6 +68,12 @@ class ResellerManagementController extends Controller
 
     public function view_reseller_detalis() {
         return response()->json(
+            Resellers::resellers_by_userID(request('id'))
+        , 200);
+    }
+
+    public function view_reseller_detalis_bystatusID() {
+        return response()->json(
             Resellers::resellers_by_status_ID(request('id'))
         , 200);
     }
