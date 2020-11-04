@@ -83,7 +83,7 @@ class Resellers extends Authenticatable
 
     public static function pending_resellers($status) {
         return DB::table('resellers')
-                ->select('resellers.username','resellers.created_at as signup_date','resellers_profiles.*','resellers_statuses.*','resellers_statuses.id as reseller_status_id')
+                ->select('resellers.username','resellers.created_at as signup_date','resellers_profiles.*','resellers_statuses.*','resellers_statuses.id as reseller_status_id','resellers_statuses.username_id as rs_username_id')
                 ->join('resellers_statuses', 'resellers.id', '=', 'resellers_statuses.username_id')
                 ->join('resellers_profiles', 'resellers.id', '=', 'resellers_profiles.username_id')
                 ->whereIn('resellers_statuses.status', $status)
