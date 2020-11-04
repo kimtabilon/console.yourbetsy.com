@@ -123,4 +123,38 @@ class Resellers extends Authenticatable
                 ->where('resellers.id', $id)
                 ->first();
     }
+
+    public static function resellers_by_status_ID($id) {
+        /* return DB::table('resellers')
+                ->select('resellers.username','resellers.created_at as signup_date',
+                        'resellers_profiles.*','resellers_statuses.*',
+                        'resellers_statuses.id as reseller_status_id',
+                        'resellers_email_addresses.email_address',
+                        'resellers_landline_numbers.landline_number','resellers_mobile_numbers.mobile_number',
+                        'resellers_addresses.address')
+                ->join('resellers_statuses', 'resellers.id', '=', 'resellers_statuses.username_id')
+                ->join('resellers_profiles', 'resellers.id', '=', 'resellers_profiles.username_id')
+                ->join('resellers_email_addresses', 'resellers.id', '=', 'resellers_email_addresses.username_id')
+                ->join('resellers_landline_numbers', 'resellers.id', '=', 'resellers_landline_numbers.username_id')
+                ->join('resellers_mobile_numbers', 'resellers.id', '=', 'resellers_mobile_numbers.username_id')
+                ->join('resellers_addresses', 'resellers.id', '=', 'resellers_addresses.username_id')
+                ->where('resellers.id', $id)
+                ->first(); */
+                return DB::table('resellers')
+                ->select('resellers.username','resellers.created_at as signup_date',
+                        'resellers_profiles.*','resellers_statuses.*',
+                        'resellers_statuses.id as reseller_status_id',
+                        'resellers_email_addresses.email_address',
+                        'resellers_mobile_numbers.mobile_number',
+                        'resellers_addresses.address',
+                        'resellers_secondary_numbers.secondary_number')
+                ->join('resellers_statuses', 'resellers.id', '=', 'resellers_statuses.username_id')
+                ->join('resellers_profiles', 'resellers.id', '=', 'resellers_profiles.username_id')
+                ->join('resellers_email_addresses', 'resellers.id', '=', 'resellers_email_addresses.username_id')
+                ->join('resellers_mobile_numbers', 'resellers.id', '=', 'resellers_mobile_numbers.username_id')
+                ->join('resellers_addresses', 'resellers.id', '=', 'resellers_addresses.username_id')
+                ->leftJoin('resellers_secondary_numbers', 'resellers.id','resellers_secondary_numbers.username_id')
+                ->where('resellers_statuses.id', $id)
+                ->first();
+    }
 }

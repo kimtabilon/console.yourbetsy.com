@@ -66,7 +66,7 @@
                                             <button type="button" rel="tooltip" onclick="show_disapprove_modal({{$info->reseller_status_id}})" class="btn btn-danger btn-link" title="Decline">
                                                 <i class="material-icons">clear</i>
                                             <div class="ripple-container"></div></button>
-                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->rs_username_id}})" class="btn btn-info btn-link" title="View">
+                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->reseller_status_id}})" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
