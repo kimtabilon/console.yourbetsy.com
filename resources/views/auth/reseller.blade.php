@@ -79,15 +79,18 @@
 
                                 {{-- <div class="form-group row mb-0"> --}}
                                         <a href="/signup" class="pull-left">Sign Up</a>
+                                        <br>
+                                        <a class="pull-left" href="/forgotpassword">
+                                                {{ __('Forgot Your Password?') }}
+                                            </a>
+
                                         <button type="submit" class="btn btn-admin pull-right">
                                             {{ __('Login') }}
                                         </button>
 
-                                        <!-- @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                {{ __('Forgot Your Password?') }}
-                                            </a>
-                                        @endif -->
+                                      
+
+                                    
                                     
                                 {{-- </div> --}}
                             </form>
