@@ -137,6 +137,15 @@ class VerifyResellers extends Mailable
                     "Cheers from the Betsy Team"
                 ];
                 break;
+            case 500:
+                $subject = "Your password has been recently changed.";
+                $body = ["This is a confirmation that you made recently changes to your password. If you did not process this request kindly contact us immediately."];
+                $show_btn = "show";
+                $regards = [
+                    "Thank you!",
+                    "Cheers from the Betsy Team"
+                ];
+            break;
             default:
                 # code...
                 break;
