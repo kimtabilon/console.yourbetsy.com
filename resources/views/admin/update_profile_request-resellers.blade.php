@@ -40,10 +40,10 @@
                                         <td>{{ $info->date_request }}</td>
                                         <td>{{ $info->status }}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_approve_modal({{$info->id}})" class="btn btn-success btn-link" title="Approve">
+                                            <button type="button" onclick="show_approve_modal({{$info->id}})" class="btn btn-success btn-link" title="Approve">
                                                 <i class="material-icons">check</i>
                                             <div class="ripple-container"></div></button>
-                                            <button type="button" rel="tooltip" onclick="show_declined_modal({{$info->id}})" class="btn btn-danger btn-link" title="Decline">
+                                            <button type="button" onclick="show_declined_modal({{$info->id}})" class="btn btn-danger btn-link" title="Decline">
                                                 <i class="material-icons">clear</i>
                                             <div class="ripple-container"></div></button>
                                         </td>
@@ -71,7 +71,7 @@
                                             <td>{{ $info->date_request }}</td>
                                             <td>{{ $info->status }}</td>
                                             <td class="td-actions text-center">
-                                                <button type="button" rel="tooltip" onclick="show_view_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
+                                                <button type="button" onclick="show_view_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
                                                     <i class="material-icons">list</i>
                                                     <div class="ripple-container"></div>
                                                 </button>

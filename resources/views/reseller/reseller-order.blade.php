@@ -42,15 +42,15 @@
                                         <td>{{$items['date_ordered']}}</td>
                                         <td>{{$items['status']}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="open_modal_view('{{$items['order_id']}}')" class="btn btn-info btn-link" title="View">
+                                            <button type="button" onclick="open_modal_view('{{$items['order_id']}}')" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
-                                            <button type="button" rel="tooltip" onclick="ship_modal('{{$items['order_id']}}')" class="btn btn-success btn-link" title="Ship" {{$btn_behavior}}>
+                                            <button type="button" onclick="ship_modal('{{$items['order_id']}}')" class="btn btn-success btn-link" title="Ship" {{$btn_behavior}}>
                                                 <i class="material-icons">local_shipping</i>
                                             <div class="ripple-container"></div>
                                             </button>
-                                            <button type="button" rel="tooltip" onclick="cancel_modal('{{$items['order_id']}}')" class="btn btn-danger btn-link" title="Cancel Order Item" {{$btn_behavior}}>
+                                            <button type="button" onclick="cancel_modal('{{$items['order_id']}}')" class="btn btn-danger btn-link" title="Cancel Order Item" {{$btn_behavior}}>
                                                 <i class="material-icons">cancel</i>
                                             <div class="ripple-container"></div>
                                             </button>

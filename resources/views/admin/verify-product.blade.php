@@ -46,13 +46,13 @@
                                             <td>{{$info->quantity}}</td>
                                             <td>{{$info->status}}</td>
                                             <td class="td-actions text-center">
-                                                <button type="button" rel="tooltip" onclick="show_verify_modal({{$info->id}})" class="btn btn-success btn-link" title="Approve">
+                                                <button type="button" onclick="show_verify_modal({{$info->id}})" class="btn btn-success btn-link" title="Approve">
                                                     <i class="material-icons">assignment_turned_in</i>
                                                 <div class="ripple-container"></div></button>
-                                                <button type="button" rel="tooltip" onclick="show_decline_modal({{$info->id}})" class="btn btn-danger btn-link" title="Decline">
+                                                <button type="button" onclick="show_decline_modal({{$info->id}})" class="btn btn-danger btn-link" title="Decline">
                                                     <i class="material-icons">clear</i>
                                                 <div class="ripple-container"></div></button>
-                                                <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
+                                                <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
                                                     <i class="material-icons">list</i>
                                                 <div class="ripple-container"></div>
                                                 </button>
@@ -88,7 +88,7 @@
                                         <td>{{$info->quantity}}</td>
                                         <td>{{$info->status}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
+                                            <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>

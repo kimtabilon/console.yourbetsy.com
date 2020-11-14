@@ -35,7 +35,7 @@
                                         <td>{{ $info->category_name }}</td>
                                         <td>{{ Status_type_category($info->status)}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_update_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-success btn-link" title="Update">
+                                            <button type="button" onclick="show_update_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-success btn-link" title="Update">
                                                 <i class="material-icons">edit</i>
                                             <div class="ripple-container"></div></button>
                                             {{-- @php 
@@ -45,13 +45,13 @@
                                                     $disable_deactivation = "disabled";
                                                 }
                                             @endphp --}}
-                                            <button type="button" rel="tooltip" onclick="show_remove_modal({{$info->id}})" class="btn btn-danger btn-link" title="Deactivate">
+                                            <button type="button" onclick="show_remove_modal({{$info->id}})" class="btn btn-danger btn-link" title="Deactivate">
                                                 <i class="material-icons">clear</i>
                                             <div class="ripple-container"></div></button>
-                                            {{-- <button type="button" rel="tooltip" onclick="show_delete_modal({{$info->id}})" class="btn btn-danger btn-link">
+                                            {{-- <button type="button" onclick="show_delete_modal({{$info->id}})" class="btn btn-danger btn-link">
                                                 <i class="material-icons">delete</i>
                                             <div class="ripple-container"></div></button> --}}
-                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-info btn-link" title="View">
+                                          <button type="button" onclick="show_view_modal({{$info->id}},'{{ $info->category_name }}')" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">local_hospital</i>
                                             <div class="ripple-container"></div>
                                             </button>
@@ -75,7 +75,7 @@
                                         <td>{{ $info->category_name }}</td>
                                         <td>{{ Status_type_category($info->status)}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_reactivate_modal({{$info->id}})" class="btn btn-success btn-link" title="Reactivate">
+                                            <button type="button" onclick="show_reactivate_modal({{$info->id}})" class="btn btn-success btn-link" title="Reactivate">
                                                 <i class="material-icons">autorenew</i>
                                             <div class="ripple-container"></div></button>
                                         </td>

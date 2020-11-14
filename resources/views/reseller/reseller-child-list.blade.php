@@ -36,13 +36,13 @@
                                         <td>{{$info->reseller_name}}</td>
                                         <td>{{$info->created_at}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_suspend_disable_modal({{$info->status->id}})" class="btn btn-danger btn-link" title="Suspend/Disable">
+                                            <button type="button" onclick="show_suspend_disable_modal({{$info->status->id}})" class="btn btn-danger btn-link" title="Suspend/Disable">
                                                 <div class="custom-icon-remove-person">
                                                     <i class="material-icons">person</i>
                                                     <i class="material-icons">clear</i>
                                                 </div>
                                               <div class="ripple-container"></div></button>
-                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->username_id}})" class="btn btn-info btn-link" title="View">
+                                          <button type="button" onclick="show_view_modal({{$info->username_id}})" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
@@ -68,7 +68,7 @@
                                         <td>{{$info->reseller_name}}</td>
                                         <td>{{$info->created_at}}</td>
                                         <td class="td-actions text-center">
-                                          <button type="button" rel="tooltip" onclick="show_view_modal({{$info->username_id}})" class="btn btn-info btn-link">
+                                          <button type="button" onclick="show_view_modal({{$info->username_id}})" class="btn btn-info btn-link">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>

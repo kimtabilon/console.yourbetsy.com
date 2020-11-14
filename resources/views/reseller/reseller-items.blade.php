@@ -61,19 +61,19 @@
                                         <td>{{$info->handling_time}}</td>
                                         <td>{{$info->status}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
+                                            <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link" title="View">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
 
                                             @if ($info->status == "Declined - Re Submit" || $info->status == "Pending")
-                                                <button type="button" rel="tooltip" onclick="show_edit_modal({{$info->id}})" class="btn btn-info btn-link btn-custom-edit" {{$info->status == "Declined - Re Submit"? "" : "disabled"}} title="Update">
+                                                <button type="button" onclick="show_edit_modal({{$info->id}})" class="btn btn-info btn-link btn-custom-edit" {{$info->status == "Declined - Re Submit"? "" : "disabled"}} title="Update">
                                                     <i class="material-icons orange-icon-color">edit</i>
                                                 <div class="ripple-container"></div>
                                                 </button>
                                             @endif
                                             @if ($info->status == "Active")
-                                                <button type="button" rel="tooltip" onclick="show_edit_active_modal({{$info->id}})" class="btn btn-info btn-link" title="Update">
+                                                <button type="button" onclick="show_edit_active_modal({{$info->id}})" class="btn btn-info btn-link" title="Update">
                                                     <i class="material-icons orange-icon-color">edit</i>
                                                 <div class="ripple-container"></div>
                                                 </button>
@@ -112,7 +112,7 @@
                                         <td>{{$info->handling_time}}</td>
                                         <td>{{$info->status}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
+                                            <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
@@ -167,11 +167,11 @@
                                         <td>{{$info->handling_time}}</td>
                                         <td>{{Status_type($info->status)}}</td>
                                         <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
+                                            <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
                                                 <i class="material-icons">list</i>
                                             <div class="ripple-container"></div>
                                             </button>
-                                        <button type="button" rel="tooltip" onclick="show_edit_active_modal({{$info->id}},'{{$info->price}}','{{$info->special_price}}','{{$info->quantity}}')" class="btn btn-info btn-link">
+                                        <button type="button" onclick="show_edit_active_modal({{$info->id}},'{{$info->price}}','{{$info->special_price}}','{{$info->quantity}}')" class="btn btn-info btn-link">
                                                 <i class="material-icons orange-icon-color">edit</i>
                                             <div class="ripple-container"></div>
                                             </button>
@@ -207,7 +207,7 @@
                                             <td>{{$info->handling_time}}</td>
                                             <td>{{Status_type($info->status)}}</td>
                                             <td class="td-actions text-center">
-                                                <button type="button" rel="tooltip" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
+                                                <button type="button" onclick="show_viewpending_modal({{$info->id}})" class="btn btn-info btn-link">
                                                     <i class="material-icons">list</i>
                                                 <div class="ripple-container"></div>
                                                 </button>
