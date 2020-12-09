@@ -517,6 +517,9 @@ class ResellerItemController extends Controller
         
 
         $validate_data = [
+            'product_name_update' => ['required'],
+            'description_update' => ['required'],
+            'short_description_update' => ['required'],
             'price_update' => ['required','numeric','min:0','not_in:0'],
             'quantity_update' => ['required','numeric','min:0','not_in:0'],
             'shipping_fee_update' => ['required','numeric','min:0','not_in:0'],
@@ -524,6 +527,9 @@ class ResellerItemController extends Controller
         ];
         if (request('special_price_update') > 0) {
             $validate_data = [
+                'product_name_update' => ['required'],
+                'description_update' => ['required'],
+                'short_description_update' => ['required'],
                 'price_update' => ['required','numeric','min:0','not_in:0'],
                 'quantity_update' => ['required','numeric','min:0','not_in:0'],
                 'shipping_fee_update' => ['required','numeric','min:0','not_in:0'],
@@ -535,6 +541,9 @@ class ResellerItemController extends Controller
         
         if (request('date_start_update') != "" || request('date_end_update') != "") {
             $validate_data = [
+                'product_name_update' => ['required'],
+                'description_update' => ['required'],
+                'short_description_update' => ['required'],
                 'price_update' => ['required','numeric','min:0','not_in:0'],
                 'quantity_update' => ['required','numeric','min:0','not_in:0'],
                 'special_price_update' => ['required','numeric','min:0','not_in:0'],
@@ -550,69 +559,155 @@ class ResellerItemController extends Controller
             $errors = $required_validation->messages();
             $status = "error";
         }else {
-            
-            $items = Items::find(request('item_id_update'));
-            $items->price = request('price_update');
-            $items->quantity = request('quantity_update');
-            $items->special_price = request('special_price_update');
-            $items->shipping_fee = request('shipping_fee_update');
-
+            $_date_start = '';
+            $_date_end = '';
             if (request('date_start_update')) {
-                $items->date_start = date("Y-m-d H:i:s",strtotime(request('date_start_update')));
+                $_date_start = date("Y-m-d H:i:s",strtotime(request('date_start_update')));
             }
 
             if (request('date_end_update')) {
-                $items->date_end = date("Y-m-d H:i:s",strtotime(request('date_end_update')));
+                $_date_end = date("Y-m-d H:i:s",strtotime(request('date_end_update')));
             }
-            
+
+            $edited_count = 0;
             $old_items = Items::find(request('item_id_update'));
             $desc_item_his_new = [];
             $desc_item_his_old = [];
             
+            if ($old_items->product_name != request('product_name_update')) {
+                $edited_count++;
+                $desc_item_his_new['product_name'] = request('product_name_update');
+                $desc_item_his_old['product_name'] = $old_items->product_name;
+            }
+
+            if ($old_items->product_desc != request('description_update')) {
+                $edited_count++;
+                $desc_item_his_new['product_desc'] = request('description_update');
+                $desc_item_his_old['product_desc'] = $old_items->product_desc;
+            }
+
+            if ($old_items->product_shortdesc != request('short_description_update')) {
+                $edited_count++;
+                $desc_item_his_new['product_shortdesc'] = request('short_description_update');
+                $desc_item_his_old['product_shortdesc'] = $old_items->product_shortdesc;
+            }
+
             if ($old_items->price != request('price_update')) {
+                $edited_count++;
                 $desc_item_his_new['price'] = request('price_update');
                 $desc_item_his_old['price'] = $old_items->price;
             }
 
             if ($old_items->quantity != request('quantity_update')) {
+                $edited_count++;
                 $desc_item_his_new['quantity'] = request('quantity_update');
                 $desc_item_his_old['quantity'] = $old_items->quantity;
             }
  
             if ($old_items->special_price != request('special_price_update')) {
+                $edited_count++;
                 $desc_item_his_new['special_price'] = request('special_price_update');
                 $desc_item_his_old['special_price'] = $old_items->special_price;
             }
 
-            if ( date("Y-m-d H:i:s",strtotime($old_items->date_start)) != $items->date_start) {
-                $desc_item_his_new['date_start'] = $items->date_start;
+            if ( date("Y-m-d H:i:s",strtotime($old_items->date_start)) != $_date_start) {
+                $edited_count++;
+                $desc_item_his_new['date_start'] = $_date_start;
                 $desc_item_his_old['date_start'] = $old_items->date_start;
             }
-            if ( date("Y-m-d H:i:s",strtotime($old_items->date_end)) != $items->date_end) {
-                $desc_item_his_new['date_end'] = $items->date_end;
+            if ( date("Y-m-d H:i:s",strtotime($old_items->date_end)) != $_date_end) {
+                $edited_count++;
+                $desc_item_his_new['date_end'] = $$_date_end;
                 $desc_item_his_old['date_end'] = $old_items->date_end;
             }
 
-            $data_desc_his = [
-                "new" => json_encode($desc_item_his_new),
-                "old" => json_encode($desc_item_his_old)
-            ];
-            $item_his_data = [
-                'item_id' => $items->id,
-                'status' => 1,
-                'action' => "Update",
-                'desc' => json_encode($data_desc_his),
-                'type_of_modifier' => "Vendor"
+            if ($edited_count > 0) {
+                
+                $items = Items::find(request('item_id_update'));
+                $items->product_name = request('product_name_update');
+                $items->product_desc = request('description_update');
+                $items->product_shortdesc = request('short_description_update');
+                $items->price = request('price_update');
+                $items->quantity = request('quantity_update');
+                $items->special_price = request('special_price_update');
+                $items->shipping_fee = request('shipping_fee_update');
+                $items->date_start = $_date_start;
+                $items->date_end = $_date_end;
+                
 
-            ];
+                $data_desc_his = [
+                    "new" => json_encode($desc_item_his_new),
+                    "old" => json_encode($desc_item_his_old)
+                ];
+                $item_his_data = [
+                    'item_id' => $items->id,
+                    'status' => 1,
+                    'action' => "Update",
+                    'desc' => json_encode($data_desc_his),
+                    'type_of_modifier' => "Vendor"
 
-            $this->item_history($item_his_data);
+                ];
+
+                $this->item_history($item_his_data);
 
 
-            $items_saved = $items->save();
+                $items_saved = $items->save();
 
-            /* UPDATE TO STORE */
-            $this->updateItemDetailsToStore($items);
+                /* UPDATE TO STORE */
+                $this->updateItemDetailsToStore($items);
+            }
+            
+            /* IMAGE UPLOAD START */
+            $img_sku = strtolower($old_items->sku);
+            $img = Storage::allFiles("/public/items/".$img_sku);
+            $existingImgDeleted = json_decode(request('del_img'));
+            if (count($existingImgDeleted) > 0) {
+                foreach ($existingImgDeleted as $value) {
+                    Storage::delete("/public/items/".$img_sku."/".$value);
+                }
+                $img = Storage::allFiles("/public/items/".$img_sku);
+                $count = 1;
+                $temp_dir = "/public/items/".$img_sku."/temp";
+                Storage::makeDirectory($temp_dir);
+                foreach ($img as $key => $value) {
+                    $infoPath = pathinfo(public_path($value));
+                    Storage::move($value, "/public/items/".$img_sku."/temp/".$img_sku."_".$count.".".$infoPath['extension']);
+                    $count++;
+                }
+                
+                /* Return Files */
+                $count = 1;
+                $temp_img = Storage::allFiles("/public/items/".$img_sku."/temp");
+                
+                foreach ($temp_img as $key => $value) {
+                    $infoPath = pathinfo(public_path($value));
+                    Storage::move($value, "/public/items/".$img_sku."/".$img_sku."_".$count.".".$infoPath['extension']);
+                    $img_url = asset('storage/items/'.$img_sku."/".$img_sku."_".$count.".".$infoPath['extension']);
+                    $count++;
+                }
+                /* Delete tempfolder */
+                Storage::deleteDirectory("/public/items/".$img_sku."/temp");
+            }else{
+                $count = count($img)+1;
+            }
+
+            $files = request()->file("product_images_update");
+            if (!empty($files)) {
+                $images_DIR = "public/items";
+                $newly_deleted = json_decode(request('del_img_NEW'));
+                
+                foreach ($files as $value) {
+                    if (!in_array($value->getClientOriginalName(), $newly_deleted)) {
+                        $filename = $img_sku."_".$count.".".$value->getClientOriginalExtension();
+                        $image_path = $images_DIR."/".$img_sku."/".$filename;
+                        Storage::put($images_DIR."/".$img_sku."/".$filename,file_get_contents($value));
+                        $count++;
+                    }
+                }
+            }
+            
+
+            /* IMAGE UPLOAD END */
 
             $status = "sucess";
             $errors = [];
@@ -734,6 +829,7 @@ class ResellerItemController extends Controller
 
             if ($price != 0 && $qty != "" && $special_price == 0) {
                 $json->product = [
+                    "name" => $items->product_name,
                     "price" => $price,
                     "extension_attributes" => [
                         "stock_item" =>[
@@ -743,6 +839,14 @@ class ResellerItemController extends Controller
                     ],
                     "custom_attributes" => [
                         [
+                            "attribute_code" => "description",
+                            "value" => $items->product_desc
+                        ],
+                        [
+                            "attribute_code" => "short_description",
+                            "value" => $items->product_shortdesc
+                        ],
+                        [
                             "attribute_code" => "shipping_cost",
                             "value" => $items->shipping_fee
                         ],
@@ -750,6 +854,7 @@ class ResellerItemController extends Controller
                 ];
             }elseif ($price != 0 && $qty != "" && $special_price > 0){
                 $json->product = [
+                    "name" => $items->product_name,
                     "price" => $price,
                     "extension_attributes" => [
                         "stock_item" =>[
@@ -758,6 +863,14 @@ class ResellerItemController extends Controller
                         ]
                     ],
                     "custom_attributes" => [
+                        [
+                            "attribute_code" => "description",
+                            "value" => $items->product_desc
+                        ],
+                        [
+                            "attribute_code" => "short_description",
+                            "value" => $items->product_shortdesc
+                        ],
                         [
                             "attribute_code" => "special_from_date",
                             "value" => $date_start

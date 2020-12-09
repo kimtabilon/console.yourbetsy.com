@@ -392,7 +392,7 @@
 
         $.ajax({
             type:'PUT',
-            url:'/admin/vendor/change_status',
+            url:'/admin/vendor/change_status_sd',
             data:{
                 verify_reseller_id: $('[name="verify_reseller_id"]').val(),
                 status: $('[name="status"]').val(),
@@ -439,7 +439,7 @@
 
         $.ajax({
             type:'PUT',
-            url:'/admin/vendor/change_status',
+            url:'/admin/vendor/change_status_sd',
             data:{
                 verify_reseller_id: $('[name="reactivate_reseller_id"]').val(),
                 status: $('[name="reactivate_status"]').val(),

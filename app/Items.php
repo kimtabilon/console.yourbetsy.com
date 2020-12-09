@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Items extends Model
 {
@@ -32,5 +33,12 @@ class Items extends Model
 
     public function payment_informations() {
         return $this->hasOne(ResellersPaymentInformations::class, 'username_id', 'username_id');
+    }
+
+    public static function getSKUsByUserId($user_id) {
+        return DB::table('items')
+                ->select('sku')
+                ->where('username_id', $user_id)
+                ->get();
     }
 }

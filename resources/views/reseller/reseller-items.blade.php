@@ -597,8 +597,8 @@
 </div>
 
 {{-- Approved Modal --}}
-<div class="modal fade" id="modal_update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-custom" id="modal_update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog custom-modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Update Item</h4>
@@ -607,50 +607,110 @@
                 </button>
             </div>
             <div class="modal-body">
+                <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link nav-info active show" data-toggle="tab" href="#link1_update" role="tablist">
+                            Info
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-images" data-toggle="tab" href="#link2_update" role="tablist">
+                            Image/s
+                        </a>
+                    </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link nav-history" data-toggle="tab" href="#link3_view" role="tablist">
+                            Approval History
+                        </a>
+                    </li> --}}
+                </ul>
                 <form method="POST" id="update_item_frm">
                     <input type="hidden" name="item_id_update">
-                    
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input class="form-control" type="number" name="price_update" aria-required="true">
+                    <div class="tab-content tab-space">
+                        <div class="tab-pane active show" id="link1_update">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Product Name</label>
+                                        <input class="form-control" type="text" name="product_name_update" aria-required="true">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea name="description_update" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Short Description</label>
+                                        <textarea name="short_description_update" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input class="form-control" type="number" name="price_update" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Special Price (Optional)</label>
+                                        <input class="form-control" type="number" name="special_price_update" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input class="form-control" type="number" name="quantity_update" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Shipping Fee</label>
+                                        <input class="form-control" type="number" name="shipping_fee_update" aria-required="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Special Price Date Start (Optional)</label>
+                                        <input class="form-control bg-c-unset" type="text" name="date_start_update" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Special Price Date End (Optional)</label>
+                                        <input class="form-control bg-c-unset" type="text" name="date_end_update" aria-required="true">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Special Price (Optional)</label>
-                                <input class="form-control" type="number" name="special_price_update" aria-required="true">
+                        <div class="tab-pane" id="link2_update">
+                            {{-- <span id="click_upload" class="file-upload-instruction">Click inside the box to upload image</span> --}}
+                            <div class="row file-upload-container">
+                                <div class="col-md-6" style="margin-bottom: 1rem;">
+                                    <div class="custom-file">
+                                        <input class="file-upload-input custom-file-input" type="file" id="customFile_update" multiple name="product_images_update[]" onchange="readURL(this);" accept="image/*" />
+                                        <label class="custom-file-label" for="customFile_update">Browse</label>
+                                        
+                                    </div>
+                                    <small>Please note: When you click the button browse, this will always replace current image. You always need to choose all images desired to upload.</small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Quantity</label>
-                                <input class="form-control" type="number" name="quantity_update" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Shipping Fee</label>
-                                <input class="form-control" type="number" name="shipping_fee_update" aria-required="true">
+                            
+                            <div class="file-upload" id="update_product_img">
+                                
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Special Price Date Start (Optional)</label>
-                                <input class="form-control bg-c-unset" type="text" name="date_start_update" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Special Price Date End (Optional)</label>
-                                <input class="form-control bg-c-unset" type="text" name="date_end_update" aria-required="true">
-                            </div>
-                        </div>
-                    </div>
-                
             </div>
                 
             <div class="modal-footer">
@@ -676,6 +736,8 @@
 <script>
     var action = "";
     var deleted_img_arr = [];
+    var deleted_img_arr_update = [];
+    var deleted_img_arr_update_NEW = [];
     var tbl_item =  $('#item_tbl').DataTable();
     $(document).ready(function() {
         /* MAIN TABLE */
@@ -918,6 +980,7 @@
                 data = data.data;
                 var date_s = "";
                 var date_e = "";
+                var loop = 0;
                 if (data.date_start) {
                     // date_s = moment(data.date_start).format('MM/DD/YYYY HH:mm');
                     date_s = moment(data.date_start).format('MM/DD/YYYY');
@@ -926,6 +989,11 @@
                     // date_e = moment(data.date_end).format('MM/DD/YYYY HH:mm');
                     date_e = moment(data.date_end).format('MM/DD/YYYY');
                 }
+
+                $('[name="product_name_update"]').val(data.product_name);
+                $('[name="description_update"]').text(data.product_desc);
+                $('[name="short_description_update"]').text(data.product_shortdesc);
+
                 $('[name="price_update"]').val(data.price);
                 $('[name="special_price_update"]').val(data.special_price);
                 $('[name="quantity_update"]').val(data.quantity);
@@ -933,6 +1001,22 @@
                 
                 $('[name="date_start_update"]').val(date_s);
                 $('[name="date_end_update"]').val(date_e);
+
+
+                $('#update_product_img').empty();
+                $.each( data.img, function( key, value ) {
+                    var skuImg = data.sku;
+                    skuImg = skuImg.toLowerCase();
+                    var url_rm = window.location.origin+"/storage/items/"+skuImg+"/";
+                    var filename = value.url.replace(url_rm, '');
+                    $('#update_product_img').append("\
+                        <div class=\"img-container\"  id=\"img_"+loop+"\">\
+                            <img src=\""+value.url+"\"/>\
+                            <i class=\"material-icons\" onclick=\"remove_img_update("+loop+",\'"+filename+"\',\'old\')\">clear</i>\
+                        <div>\
+                    ");
+                    loop++;
+                });
             }
         });
     }
@@ -1103,6 +1187,8 @@
 
     $('#update_item_frm').on('submit', function(e) {
         var formData = new FormData($('#update_item_frm')[0]);
+        formData.append("del_img",JSON.stringify(deleted_img_arr_update));
+        formData.append("del_img_NEW",JSON.stringify(deleted_img_arr_update_NEW));
         e.preventDefault();
 
         $.ajaxSetup({
@@ -1199,12 +1285,11 @@
             
             for (i = 0; i < filesAmount; i++) {
                 var reader = new FileReader();
-
+                var file_name = input.files[i].name;
+                /* file_name = file_name.replace(' ','_'); */
                 reader.onload = function(event) {
-
+                    var img_id = img_count+"_new";
                     // $(".file-upload-direction").hide();
-                    
-
                     if (action == "update") {
                         $('.file-upload').append("\
                             <div class=\"img-container\" id=\"item_img_"+img_count+"\">\
@@ -1213,7 +1298,13 @@
                             <div>\
                         ");
                     }else{
-                        $('.file-upload').append("<div class='img-container'><img src='"+event.target.result+"'/><div>");
+                        // $('.file-upload').append("<div class='img-container'><img src='"+event.target.result+"'/><div>");
+                        $('.file-upload').append("\
+                            <div class=\"img-container\" id=\"img_"+img_id+"\">\
+                                <img src=\""+event.target.result+"\"/>\
+                                <i class=\"material-icons\" onclick=\"remove_img_update(\'"+img_id+"\',\'"+file_name+"\',\'new\')\">clear</i>\
+                            <div>\
+                        ");
                     }
                     
                     img_count++;
@@ -1359,6 +1450,31 @@ function catfirstlevel() {
         }
     });
 
+}
+
+function remove_img_update(count,filename,img_type) {
+    if (img_type == "old") {
+        $("#img_"+count).remove();
+        deleted_img_arr_update.push(filename);
+    }else{
+        $("#img_"+count).remove()
+        /* $("#img_"+count).hide();
+        $("#img_"+count).find('img').remove();
+        $("#img_"+count).remove(); */
+        /* var delete_img = setInterval( timer, 1000 );
+
+        function timer() {
+            console.log('deleteing_ongoing');
+            if ($("#img_"+count).length > 0) {
+                $("#img_"+count).remove();
+            }else{
+                clearInterval(delete_img);
+            }
+        }
+        deleted_img_arr_update_NEW.push(filename); */
+        deleted_img_arr_update_NEW.push(filename);
+    }
+    console.log(deleted_img_arr_update_NEW);
 }
 </script>
 @endsection 

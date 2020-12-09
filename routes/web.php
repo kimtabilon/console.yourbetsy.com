@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/dashboard', 'Admin\AdminDashboardController@index')->name('admin.dashboard');
         Route::get('/vendor/verify', 'Admin\ResellerManagementController@pending_resellers')->name('admin.reseller-verify');
         Route::match(['put', 'patch'],'/vendor/change_status','Admin\ResellerManagementController@reseller_change_status');
+        Route::match(['put', 'patch'],'/vendor/change_status_sd','Admin\ResellerManagementController@reseller_change_status_SD');
         Route::post('/vendor/verify/view', 'Admin\ResellerManagementController@view_reseller_detalis');
         Route::post('/vendor/verify/view-status-id', 'Admin\ResellerManagementController@view_reseller_detalis_bystatusID');
         Route::get('/vendor/suspend-disable', 'Admin\ResellerManagementController@active_resellers')->name('admin.reseller-suspend_disable');
@@ -113,6 +114,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/product-management/verify', 'Admin\ProductManangementController@pending_products')->name('admin.product-management_verify');
         Route::post('/product-management/verify/view', 'Admin\ProductManangementController@item_details')->name('admin.product-management_verify_view');
         Route::match(['put', 'patch'],'/product-management/verify/change_status','Admin\ProductManangementController@product_change_status');
+        Route::match(['put', 'patch'],'/product-management/verify/change_status_sd','Admin\ProductManangementController@product_change_status_sd');
         Route::match(['put', 'patch'],'/product-management/verify/decline','Admin\ProductManangementController@product_decline');
         Route::post('/product-management/verify/view_decline', 'Admin\ProductManangementController@view_decline')->name('admin.product-management_verify_view_decline');
         Route::get('/product-management/suspend-disable', 'Admin\ProductManangementController@active_products')->name('admin.product-management_suspend_disable');

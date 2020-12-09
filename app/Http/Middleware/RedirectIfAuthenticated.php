@@ -22,7 +22,6 @@ class RedirectIfAuthenticated
         // }
 
         // return $next($request);
-
         switch ($guard) {
             case 'reseller':
                 if (Auth::guard($guard)->check()) {
@@ -36,7 +35,6 @@ class RedirectIfAuthenticated
                 }
                 break;
         }
-
         return $next($request);
     }
 }

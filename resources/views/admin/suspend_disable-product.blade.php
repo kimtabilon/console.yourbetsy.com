@@ -541,7 +541,7 @@
 
         $.ajax({
             type:'PUT',
-            url:'/admin/product-management/verify/change_status',
+            url:'/admin/product-management/verify/change_status_sd',
             data:{
                 verify_product_id: $('[name="product_id"]').val(),
                 status: $('[name="status"]').val(),
@@ -586,7 +586,7 @@
 
         $.ajax({
             type:'PUT',
-            url:'/admin/product-management/verify/change_status',
+            url:'/admin/product-management/verify/change_status_sd',
             data:{
                 verify_product_id: $('[name="verify_product_id"]').val(),
                 status: $('[name="status_verify"]').val(),

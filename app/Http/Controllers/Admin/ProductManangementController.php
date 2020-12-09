@@ -216,6 +216,72 @@ class ProductManangementController extends Controller
         , 200);
     }
 
+    public function product_change_status_sd() {
+        $product_status = Items::find(request('verify_product_id'));
+        $product_status->status = request('status');
+        $saved = $product_status->save();
+
+        if(!$saved){
+            $status = "unsuccessful";
+        }else{
+            $status = "successful";
+
+            $item_history = New ItemsHistories();
+            $item_history->item_id = request('verify_product_id');
+            $item_history->status = request('status');
+            $item_history->date_modified = date("Y-m-d H:i:s");
+            $item_history->modified_by = Auth::user()->id;
+            $item_history->action = request('action');
+            $item_history_saved = $item_history->save();
+            
+            $product = Items::with(['profile','email_add'])->find(request('verify_product_id'));
+            $email_type = "";
+            $email_stat = request('status');
+
+            
+            if ($email_stat == 3 || $email_stat == 4) {
+                $itemStatusStore = 2;    
+            }else{
+                $itemStatusStore = 1;
+            }
+            
+            $this->enabledisableItemToStore($product->sku,$itemStatusStore);
+
+            if (request('action') == "Reactivate") {
+                $email_stat = 6;
+            }
+            switch ($email_stat) {
+                case 0:
+                    $email_type = "itemVerification";
+                    break;
+                case 3:
+                    $email_type = "itemSuspended";
+                    break;
+                case 4:
+                    $email_type = "itemDisabled";
+                    break;
+                case 6:
+                    $email_type = "itemReactivate";
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+            $product->email_type = $email_type;
+            mail::to($product->email_add->email_address)->send(new Item($product));
+            if (mail::failures()) {
+                return response()->json(
+                    ['status' => $status]
+                , 200);
+            }else{
+            }
+        }
+        return response()->json(
+            ['status' => $status]
+        , 200);
+    }
+
     public function product_decline() {
         $item_status = (request('allow_resubmit') == "on"? 5 : request('status'));
         $product_status = Items::find(request('decline_product_id'));
@@ -531,5 +597,29 @@ dd($imageData);
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         return $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+
+    public function enabledisableItemToStore($item_sku,$status) {
+        $token_details = storeToken();
+        $sku = urlencode($item_sku);
+        $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$sku);
+        $json = new stdClass;
+        $json->product = [
+            "sku" => $sku,
+            "status" => $status,
+        ];
+        $json->saveOptions = true;
+        $json  = json_encode($json);
+        $curlOptions = array(
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $json,
+            CURLOPT_HTTPHEADER => array( "Content-type: application/json", "Authorization: Bearer ".json_decode($token_details['token']))
+            );
+            
+        curl_setopt_array( $ch, $curlOptions );
+        
+        $response = curl_exec( $ch );
+
     }
 }

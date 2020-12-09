@@ -17,6 +17,7 @@ use App\ResellersEmailAddresses;
 use App\ResellersAddresses;
 use App\ResellersMobileNumbers;
 use App\ResellersSecondaryNumbers;
+use App\Items;
 
 
 class ResellerManagementController extends Controller
@@ -239,5 +240,60 @@ class ResellerManagementController extends Controller
         return response()->json(
             ['status' => $status]
         , 200);
+    }
+
+    public function reseller_change_status_SD() {
+        $reseller_status = ResellersStatuses::find(request('verify_reseller_id'));
+        $reseller_status->status = request('status') == 30 ? 0 : request('status');
+        $saved = $reseller_status->save();
+        $item_list = Items::getSKUsByUserId($reseller_status->username_id);
+        if (request('status') == 3 || request('status') == 4) {
+            $statusToStore = 2;
+        }else {
+            $statusToStore = 1;
+        }
+
+        $this->enabledisableItemToStore($item_list, $statusToStore);
+        if(!$saved){
+            $status = "unsuccessful";
+        }else{
+            $status = "successful";
+            $reseller_profile = ResellersProfiles::where('username_id',$reseller_status->username_id)->first();
+            $reseller_profile->action_type = request('status') == 30 ? 400 : request('status');
+
+            /* IMPORTANT */
+            mail::to($reseller_profile->emailaddress->email_address)->send(new VerifyResellers($reseller_profile));
+        }
+        return response()->json(
+            ['status' => $status]
+        , 200);
+    }
+
+    public function enabledisableItemToStore($item_sku,$status) {
+        $token_details = storeToken();
+        
+
+        foreach ($item_sku as $key => $value) {
+            $sku = urlencode($value->sku);
+            $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$sku);
+            $json = new stdClass;
+            $json->product = [
+                "sku" => $sku,
+                "status" => $status,
+            ];
+            $json->saveOptions = true;
+            $json  = json_encode($json);
+            $curlOptions = array(
+                CURLOPT_CUSTOMREQUEST => "PUT",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POSTFIELDS => $json,
+                CURLOPT_HTTPHEADER => array( "Content-type: application/json", "Authorization: Bearer ".json_decode($token_details['token']))
+                );
+                
+            curl_setopt_array( $ch, $curlOptions );
+            
+            $response = curl_exec( $ch );
+        }
+
     }
 }
