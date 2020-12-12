@@ -56,9 +56,9 @@ class ForgotPasswordController extends Controller
 
             $resellers = DB::table('resellers_email_addresses')
                 ->select(array('resellers.security_question','resellers.id','resellers_profiles.reseller_name'))
-                ->where('email_address', $request->email)
-                ->join('resellers', 'resellers.id', '=', 'resellers_email_addresses.username_id')
-                ->join('resellers_profiles', 'resellers_profiles.id', '=', 'resellers.id')
+                ->where('resellers_email_addresses.email_address', $request->email)
+                ->join('resellers', 'resellers_email_addresses.username_id', '=', 'resellers.id')
+                ->join('resellers_profiles', 'resellers.id', '=', 'resellers_profiles.username_id')
                 ->first();
             
         if ($resellers) { 
