@@ -605,7 +605,7 @@ dd($imageData);
         $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$sku);
         $json = new stdClass;
         $json->product = [
-            "sku" => $sku,
+            "sku" => $item_sku,
             "status" => $status,
         ];
         $json->saveOptions = true;
