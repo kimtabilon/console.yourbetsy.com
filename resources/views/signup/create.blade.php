@@ -103,7 +103,7 @@
 									<div class="row">
 										<div class="col-md-6" id="reseller_col">
 											<div class="form-group">
-                                                <label class="bmd-label-floating">Seller Name</label>
+                                                <label class="bmd-label-floating">Seller - Store Name</label>
 											<input name="seller_name" type="text" class="form-control uppercase-input {{$errors->has('seller_name')? "required-error": "" }}" value="{{old('seller_name')}}"  >
 											</div>
 										</div>
