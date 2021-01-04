@@ -43,32 +43,35 @@ class CategoryManagementController extends Controller
     public function create_menu(array $arrayItem, $id_parent = 0, $level = 0) {
 
         $this->cat_html .= str_repeat("" , $level ).'<ul id="list_cat_'.$this->ul_id.'">';
-        foreach( $arrayItem[$id_parent] as $id_item => $item){
+        if (isset($arrayItem[$id_parent])) {
+            foreach( $arrayItem[$id_parent] as $id_item => $item){
 
-            if ($item['status'] == 0) {
-                $this->cat_html .= str_repeat("" , $level + 1 ).'
-                    <li>
-                    <div class="category-name-container">
-                        <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
-                        <i class="material-icons cat-action-button cat-action-button-update" onclick="show_update_modal(\''.$item['id'].'\',\''.$item['name'].'\')">edit</i>
-                        <i class="material-icons cat-action-button cat-action-button-add" onclick="add_category(\''.$item['id'].'\')">library_add</i>
-                        <i class="material-icons cat-action-button cat-action-button-deact" onclick="show_remove_modal(\''.$item['id'].'\')">clear</i>
-                    </div>';
-            }else {
-                $this->cat_html .= str_repeat("" , $level + 1 ).'
-                    <li>
-                    <div class="category-name-container">
-                        <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
-                        <i class="material-icons cat-action-button cat-action-button-add" onclick="show_reactivate_modal(\''.$item['id'].'\')">autorenew</i>
-                    </div>';
+                if ($item['status'] == 0) {
+                    $this->cat_html .= str_repeat("" , $level + 1 ).'
+                        <li>
+                        <div class="category-name-container">
+                            <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
+                            <i class="material-icons cat-action-button cat-action-button-update" onclick="show_update_modal(\''.$item['id'].'\',\''.$item['name'].'\')">edit</i>
+                            <i class="material-icons cat-action-button cat-action-button-add" onclick="add_category(\''.$item['id'].'\')">library_add</i>
+                            <i class="material-icons cat-action-button cat-action-button-deact" onclick="show_remove_modal(\''.$item['id'].'\')">clear</i>
+                        </div>';
+                }else {
+                    $this->cat_html .= str_repeat("" , $level + 1 ).'
+                        <li>
+                        <div class="category-name-container">
+                            <h3 class="_category" id="cat_'.$item['id'].'" >'.$item['name'].'</h3>
+                            <i class="material-icons cat-action-button cat-action-button-add" onclick="show_reactivate_modal(\''.$item['id'].'\')">autorenew</i>
+                        </div>';
+                }
+                
+                if(isset( $arrayItem[$id_item] ) ){
+                    $this->ul_id = $item['id'];
+                    $this->create_menu($arrayItem , $id_item , $level + 1);
+                }
+                $this->cat_html .=  str_repeat("" , $level + 1 ).'</li>';
             }
-            
-            if(isset( $arrayItem[$id_item] ) ){
-                $this->ul_id = $item['id'];
-                $this->create_menu($arrayItem , $id_item , $level + 1);
-            }
-            $this->cat_html .=  str_repeat("" , $level + 1 ).'</li>';
         }
+        
         $this->cat_html .=  str_repeat("" , $level ).'</ul>';
         return $this->cat_html;
     } 
