@@ -7,6 +7,9 @@ use Storage;
 use App\Items;
 use App\ResellersProfiles;
 
+use App\Mail\VerifyResellers;
+use Illuminate\Support\Facades\Mail;
+
 class ContentController extends Controller
 {
     public function details($sku) {
@@ -108,6 +111,20 @@ class ContentController extends Controller
         return view('content.policies',
             ['data' => $data]
         );
+    }
+
+    public function email_test() {
+        $profiles = ResellersProfiles::find(1);
+        
+        $profiles->action_type = 101;
+        mail::to('carl.romutap@iwebsolutionsphilippines.com')->send(new VerifyResellers($profiles));
+        
+        if (mail::failures()) {
+            
+        }else{
+            return "EMAIL SENT";
+        }
+        
     }
 }
 

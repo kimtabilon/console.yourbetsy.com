@@ -144,5 +144,6 @@ Route::prefix('content')->group(function() {
     Route::get('/manufacturer-profile/{name?}', 'ContentController@manufacturer_profile')->name('content.description');
     Route::get('/gallery/{sku?}', 'ContentController@gallery')->name('content.gallery');
     Route::get('/policies/{sku?}', 'ContentController@manufacturer_policies')->name('content.gallery');
+    Route::get('/test_email', 'ContentController@email_test')->name('content.emailtest');
 });
 
