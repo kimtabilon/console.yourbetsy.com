@@ -23,13 +23,24 @@ class CategoryManagementController extends Controller
     public function categoryListByStatus($status) {
         $result = ItemsVtCategories::where("status", $status)->get();
         $menuItens = array();
+        $id_parent = 0;
+        $count = 0;
         foreach ($result as $row ){
             $menuItens[$row->related_category_id][$row->id] = array('id' => $row->id,'name' => $row->category_name,'status' => $row->status);
+            if ($status == 1 && $count == 0) {
+                $id_parent = $row->related_category_id;
+            }
+            $count++;
         }
 
         $res = '';
         if (count($menuItens)) {
-            $res = $this->create_menu($menuItens);
+            if ($status == 1) {
+                $res = $this->create_menu($menuItens, $id_parent);
+            }else {
+                $res = $this->create_menu($menuItens);
+            }
+            
         }
 
         $this->cat_html = '';
