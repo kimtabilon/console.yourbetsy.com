@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use DB;
+use Storage;
 use App\Items;
+use Carbon\Carbon;
 
 class Sync extends Command
 {
@@ -44,26 +46,34 @@ class Sync extends Command
         $betsy_api = "https://www.yourbetsy.com/rest/V1/mjsi-distribution/post/getProducts";
         $json_data = $this->cleanJson(file_get_contents($betsy_api));
         $json_data = json_decode($json_data);
-        
         switch ($action) {
             case 'qty':
+                $this->log('sync qty started');
+                $this->log('number of items at store: '.count($json_data));
+                $qty_sync_count = 0;
                 foreach ($json_data as $key => $value) {
                     $query = 'SELECT id, sku, quantity FROM `items` 
                             WHERE sku = '."'".$value->sku."'".'';
                     $consolebetsy_item = DB::select($query);
                     if ($consolebetsy_item) {
                         if ($consolebetsy_item[0]->quantity != $value->qty) {
+                            $qty_sync_count++;
                             $update_qty = Items::find($consolebetsy_item[0]->id);
                             $update_qty->quantity = $value->qty;
                             $update_qty->save();
                         }
                     }
                 }
-                echo 'syncing DONE';
+                $this->log('number of items qty sync: '.$qty_sync_count);
+                $this->log('sync qty done');
                 break;
 
             case 'manufacturer':
                 $token_details = storeToken();
+
+                $this->log('sync manufacturer started');
+
+                $manufacturer_sync_count = 0;
 
                 foreach ($json_data as $key => $value) {
                     $query = 'SELECT  items.sku, resellers_profiles.reseller_name FROM `items` 
@@ -73,6 +83,7 @@ class Sync extends Command
                     if ($consolebetsy_item) {
                         $console_manufacturer = $consolebetsy_item[0]->reseller_name;
                         if ($console_manufacturer != $value->manufacturer) {
+                            $manufacturer_sync_count++;
                             $ch = curl_init($token_details['domain']."/rest/all/V1/products/".$value->sku);
                             $json = new \stdClass;
                             $json->product = [
@@ -99,6 +110,9 @@ class Sync extends Command
                         }
                     }
                 }
+
+                $this->log('number of manufacturer sync: '.$manufacturer_sync_count);
+                $this->log('sync manufacturer done');
                 break;
             
             default:
@@ -114,5 +128,10 @@ class Sync extends Command
         $json = html_entity_decode($json);
         $json = stripslashes($json);
         return $json;
+    }
+
+    protected function log($text) {
+        $text = Carbon::now()->toDateTimeString().' >> '.$text;
+        Storage::prepend('public/logs/cron.log', $text);
     }
 }

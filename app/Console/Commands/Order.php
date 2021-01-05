@@ -6,6 +6,9 @@ use Illuminate\Console\Command;
 use App\Orders;
 use App\OrderStatuses;
 use App\OrderItems;
+use Storage;
+use Carbon\Carbon;
+
 class Order extends Command
 {
     /**
@@ -43,11 +46,14 @@ class Order extends Command
         $token_details = storeToken();
         switch ($action) {
             case 'sync-processing':
-
+                $this->log('syncing of processing order started');
                 $existing_order = OrderStatuses::select('order_id')->where('status','Processing')
                 ->pluck('order_id')->toArray();
 
                 $orders = $this->get_order_bystatus('processing');
+                $this->log('number of processing order from store: '.count($orders['items']));
+                $new_order = 0;
+                $existing_order = 0;
                 for ($i=0; $i < count($orders['items']); $i++) { 
                     $order_details = $orders['items'][$i];
                     // dd($order_details);
@@ -128,6 +134,7 @@ class Order extends Command
                             $db_order_items->status = $item_status;
                             $db_order_items->save();
                         }
+                        $new_order++;
                     }else{
                         foreach ($order_details['items'] as $item_v) {
                             $item_status = '';
@@ -159,10 +166,14 @@ class Order extends Command
                                 $update_orderitem->save();
                             }
                         }
+
+                        $existing_order++;
                     }
                     
                 }
-                echo 'done';
+                $this->log('number of new orders under processing: '.$new_order);
+                $this->log('number of existing orders changing status: '.$existing_order);
+                $this->log('syncing of processing order done');
                 break;
             /* case 'sync-complete':
                 $order = $this->get_order_bystatus('complete');
@@ -322,5 +333,10 @@ class Order extends Command
         $order_data = curl_exec( $ch );
         $order_data = json_decode($order_data, true);
         return $order_data;
+    }
+
+    protected function log($text) {
+        $text = Carbon::now()->toDateTimeString().' >> '.$text;
+        Storage::prepend('public/logs/cron.log', $text);
     }
 }
