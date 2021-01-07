@@ -286,8 +286,8 @@
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
    <script src="/assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-   <script src="/assets/demo/demo.js"></script>
-   <script type="text/javascript" src="/assets/js/material-dashboard.min.js"></script>
+   {{-- <script src="/assets/demo/demo.js"></script>
+   <script type="text/javascript" src="/assets/js/material-dashboard.min.js"></script> --}}
    {{-- JQuery UI --}}
    <script type="text/javascript" src="/assets/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
    {{-- Datatable --}}

@@ -236,7 +236,7 @@
    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
    <script src="/assets/demo/demo.js"></script>
 
-   <script type="text/javascript" src="/assets/js/material-dashboard.min.js"></script>
+   {{-- <script type="text/javascript" src="/assets/js/material-dashboard.min.js"></script> --}}
    {{-- Datatable --}}
    <script type="text/javascript" src="/assets/datatable/datatables.min.js"></script>
    {{-- Modal alert --}}
